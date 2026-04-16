@@ -2,45 +2,38 @@
   "sliderImages": [
     {
       "id": "1",
-      "src": "/images/realisations/charpente-construction.jpg",
-      "alt": "Charpente métallique en construction – DIONORD",
+      "src": "/images/hero/hero-01-charpente.jpg",
+      "alt": "Charpente métallique industrielle en construction – DIONORD Tanger",
       "title": "Construction Métallique",
       "subtitle": "Structures industrielles sur mesure"
     },
     {
       "id": "2",
-      "src": "/images/realisations/charpente-interieur.jpg",
-      "alt": "Vue intérieure charpente métallique – DIONORD",
+      "src": "/images/hero/hero-02-hangar.jpg",
+      "alt": "Hangar industriel de grande portée – DIONORD",
       "title": "Hangars Industriels",
       "subtitle": "Grande portée, haute qualité"
     },
     {
       "id": "3",
-      "src": "/images/realisations/fabrication-atelier.jpg",
-      "alt": "Fabrication en atelier – DIONORD",
+      "src": "/images/hero/hero-03-soudure.jpg",
+      "alt": "Soudure et fabrication métallique en atelier – DIONORD",
       "title": "Atelier de Fabrication",
       "subtitle": "Savoir-faire artisanal et technique"
     },
     {
       "id": "4",
-      "src": "/images/realisations/garde-corps-inox.jpg",
-      "alt": "Garde-corps inox – DIONORD",
-      "title": "Menuiserie Inox",
+      "src": "/images/hero/hero-04-aluminium.jpg",
+      "alt": "Façade aluminium et vitrage professionnel – DIONORD",
+      "title": "Menuiserie Aluminium & Inox",
       "subtitle": "Finitions premium sur mesure"
     },
     {
       "id": "5",
-      "src": "/images/realisations/cloisons-vitrees.jpg",
-      "alt": "Cloisons vitrées bureau – DIONORD",
-      "title": "Cloisons Aluminium & Verre",
-      "subtitle": "Espaces professionnels élégants"
-    },
-    {
-      "id": "1776313103050",
-      "src": "/uploads/untitled_gemini-3-1-flash--nano-banana-2-_2026-04-16_04-17-42-1776313103041.png",
-      "alt": "Nouvelle image DIONORD",
-      "title": "Nouveau titre",
-      "subtitle": "Sous-titre"
+      "src": "/images/hero/hero-05-amenagement.jpg",
+      "alt": "Aménagement intérieur professionnel – DIONORD",
+      "title": "Aménagement Professionnel",
+      "subtitle": "Espaces de travail élégants"
     }
   ],
   "realisations": [
@@ -49,9 +42,7 @@
       "title": "Garde-corps inox escalier",
       "description": "Installation d'un garde-corps en inox brossé pour escalier intérieur. Finition soignée, montage précis.",
       "category": "menuiserie-aluminium-inox",
-      "images": [
-        "/images/realisations/garde-corps-inox.jpg"
-      ],
+      "images": ["/images/realisations/garde-corps-inox.jpg"],
       "featured": true
     },
     {
@@ -59,9 +50,7 @@
       "title": "Cloisons vitrées de bureau",
       "description": "Séparation en aluminium et verre pour salle de réunion professionnelle. Profils aluminium laqué blanc.",
       "category": "menuiserie-aluminium-inox",
-      "images": [
-        "/images/realisations/cloisons-vitrees.jpg"
-      ],
+      "images": ["/images/realisations/cloisons-vitrees.jpg"],
       "featured": true
     },
     {
@@ -69,9 +58,7 @@
       "title": "Paroi de douche aluminium",
       "description": "Paroi de douche sur mesure en aluminium et verre trempé. Installation résidentielle propre et soignée.",
       "category": "menuiserie-aluminium-inox",
-      "images": [
-        "/images/realisations/paroi-douche.jpg"
-      ],
+      "images": ["/images/realisations/paroi-douche.jpg"],
       "featured": true
     },
     {
@@ -79,9 +66,7 @@
       "title": "Charpente métallique industrielle",
       "description": "Construction d'une charpente métallique industrielle de grande portée. Vue extérieure avec grue, projet d'envergure.",
       "category": "construction-metallique",
-      "images": [
-        "/images/realisations/charpente-construction.jpg"
-      ],
+      "images": ["/images/realisations/charpente-construction.jpg"],
       "featured": true
     },
     {
@@ -89,19 +74,71 @@
       "title": "Hangar industriel – vue intérieure",
       "description": "Vue intérieure d'un hangar métallique de grande portée. Structure acier sur dalle béton, montage soigné.",
       "category": "construction-metallique",
-      "images": [
-        "/images/realisations/charpente-interieur.jpg"
-      ],
+      "images": ["/images/realisations/charpente-interieur.jpg"],
       "featured": true
     },
     {
       "id": "6",
       "title": "Fabrication structure métallique",
-      "description": "Fabrication en atelier d'une structure métallique lourde (bac/cuve). Soudure et finition de qualité industrielle.",
+      "description": "Fabrication en atelier d'éléments de structure lourde. Soudure et finition de qualité industrielle.",
       "category": "construction-metallique",
-      "images": [
-        "/images/realisations/fabrication-atelier.jpg"
-      ],
+      "images": ["/images/realisations/fabrication-atelier.jpg"],
+      "featured": true
+    },
+    {
+      "id": "7",
+      "title": "Façade aluminium bâtiment",
+      "description": "Réalisation d'une façade aluminium et vitrage pour bâtiment commercial. Finition haut de gamme.",
+      "category": "menuiserie-aluminium-inox",
+      "images": ["/images/realisations/facade-aluminium.jpg"],
+      "featured": true
+    },
+    {
+      "id": "8",
+      "title": "Hangar acier grande portée",
+      "description": "Montage d'un hangar en acier galvanisé pour usage industriel et logistique. Portée 30 m.",
+      "category": "construction-metallique",
+      "images": ["/images/realisations/hangar-acier.jpg"],
+      "featured": true
+    },
+    {
+      "id": "9",
+      "title": "Installation système incendie",
+      "description": "Pose de sprinklers et centrale de détection incendie conforme norme EN-54. Site industriel Tanger.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/sprinkler-incendie.jpg"],
+      "featured": true
+    },
+    {
+      "id": "10",
+      "title": "Clôture périphérique industrielle",
+      "description": "Installation d'une clôture métallique périphérique pour site industriel. Panneaux rigides galvanisés.",
+      "category": "cloture-metallique",
+      "images": ["/images/realisations/cloture-industrielle.jpg"],
+      "featured": true
+    },
+    {
+      "id": "11",
+      "title": "Portail coulissant motorisé",
+      "description": "Fourniture et pose d'un portail coulissant motorisé pour accès industriel sécurisé.",
+      "category": "cloture-metallique",
+      "images": ["/images/realisations/portail-coulissant.jpg"],
+      "featured": false
+    },
+    {
+      "id": "12",
+      "title": "Installation machines usine",
+      "description": "Montage et mise en service de machines industrielles dans une usine de la zone franche de Tanger.",
+      "category": "installation-machines-industrielles",
+      "images": ["/images/realisations/installation-machines.jpg"],
+      "featured": false
+    },
+    {
+      "id": "13",
+      "title": "Rénovation bureaux",
+      "description": "Rénovation complète de bureaux professionnels : peinture, faux plafond, électricité. Livré clé en main.",
+      "category": "travaux-amenagement",
+      "images": ["/images/realisations/renovation-bureau.jpg"],
       "featured": false
     }
   ],

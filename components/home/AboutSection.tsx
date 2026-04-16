@@ -1,6 +1,7 @@
 'use client'
 
 import { useInView } from 'react-intersection-observer'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
@@ -61,16 +62,39 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Visual Panel */}
           <div className={`transition-all duration-700 delay-200 ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-            <div className="bg-brand-gray-light rounded-2xl p-10">
-              <div className="grid grid-cols-2 gap-10">
+            {/* Image grid */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/about/atelier.jpg"
+                  alt="Atelier de fabrication DIONORD"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/about/chantier-equipe.jpg"
+                  alt="Équipe DIONORD sur chantier"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+            </div>
+
+            {/* Stats grid */}
+            <div className="bg-brand-gray-light rounded-2xl p-7">
+              <div className="grid grid-cols-2 gap-8">
                 {stats.map((stat, i) => (
                   <AnimatedCounter key={i} value={stat.value} label={stat.label} description={stat.description} />
                 ))}
               </div>
 
-              <div className="mt-10 pt-10 border-t border-gray-200">
+              <div className="mt-7 pt-7 border-t border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-brand-red rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

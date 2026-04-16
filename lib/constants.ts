@@ -5,9 +5,9 @@ export const SITE_DESCRIPTION =
 
 export const CONTACT = {
   address: 'Zone Industrielle, Tanger, Maroc',
-  phone: '+212 5XX XX XX XX',
-  whatsapp: '212600000000',
-  whatsappDisplay: '+212 6XX XX XX XX',
+  phone: '+212 669 820 191',
+  whatsapp: '33749389103',
+  whatsappDisplay: '+33 7 49 38 91 03',
   email: 'contact@dionord.ma',
   hours: {
     weekdays: 'Lundi – Vendredi : 8h00 – 18h00',

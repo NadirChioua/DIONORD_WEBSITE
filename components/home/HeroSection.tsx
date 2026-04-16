@@ -8,32 +8,32 @@ import { getWhatsAppLink, CONTACT } from '@/lib/constants'
 
 const slides = [
   {
-    src: '/images/realisations/charpente-construction.jpg',
-    alt: 'Charpente métallique industrielle – DIONORD Tanger',
+    src: '/images/hero/hero-01-charpente.jpg',
+    alt: 'Charpente métallique industrielle en construction – DIONORD Tanger',
     title: 'Construction Métallique',
     sub: 'Structures industrielles sur mesure',
   },
   {
-    src: '/images/realisations/charpente-interieur.jpg',
-    alt: 'Hangar métallique vue intérieure – DIONORD',
+    src: '/images/hero/hero-02-hangar.jpg',
+    alt: 'Hangar industriel de grande portée – DIONORD',
     title: 'Hangars Industriels',
     sub: 'Grande portée, haute qualité',
   },
   {
-    src: '/images/realisations/fabrication-atelier.jpg',
-    alt: 'Fabrication métallique en atelier – DIONORD',
+    src: '/images/hero/hero-03-soudure.jpg',
+    alt: 'Soudure et fabrication métallique en atelier – DIONORD',
     title: 'Atelier de Fabrication',
     sub: 'Savoir-faire artisanal et technique',
   },
   {
-    src: '/images/realisations/garde-corps-inox.jpg',
-    alt: 'Garde-corps inox – DIONORD',
-    title: 'Menuiserie Inox & Aluminium',
+    src: '/images/hero/hero-04-aluminium.jpg',
+    alt: 'Façade aluminium et menuiserie premium – DIONORD',
+    title: 'Menuiserie Aluminium & Inox',
     sub: 'Finitions premium sur mesure',
   },
   {
-    src: '/images/realisations/cloisons-vitrees.jpg',
-    alt: 'Cloisons vitrées de bureau – DIONORD',
+    src: '/images/hero/hero-05-amenagement.jpg',
+    alt: 'Aménagement intérieur professionnel – DIONORD',
     title: 'Aménagement Professionnel',
     sub: 'Espaces de travail élégants',
   },
