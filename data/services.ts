@@ -1,0 +1,317 @@
+export interface Service {
+  slug: string
+  title: string
+  shortTitle: string
+  tagline: string
+  description: string
+  longDescription: string[]
+  prestations: string[]
+  targets: string[]
+  whyDionord: string[]
+  images: string[]
+  heroImage: string
+  icon: string
+  color: string
+  priority: 'high' | 'medium' | 'low'
+  segment: 'B2B' | 'B2C' | 'B2B+B2C'
+  ticketRange: string
+  metaTitle: string
+  metaDescription: string
+  keywords: string[]
+}
+
+export const services: Service[] = [
+  {
+    slug: 'construction-metallique',
+    title: 'Construction Métallique',
+    shortTitle: 'Construction Métallique',
+    tagline: 'Structures industrielles sur mesure pour vos projets d\'envergure',
+    description: 'Conception, fabrication et montage de charpentes métalliques pour bâtiments industriels, hangars, entrepôts et structures commerciales.',
+    longDescription: [
+      'DIONORD conçoit, fabrique et monte des charpentes métalliques pour tous types de bâtiments industriels, commerciaux et logistiques. De l\'étude technique à la livraison clé en main, notre équipe accompagne chaque projet avec rigueur et savoir-faire.',
+      'Basés à Tanger, au cœur du deuxième pôle industriel du Maroc, nous intervenons dans toutes les zones franches (TFZ, TAC, Gueznaya, MedHub) ainsi que dans toute la région Tanger-Tétouan-Al Hoceima. Notre proximité avec les grands donneurs d\'ordre industriels est un atout stratégique pour des délais d\'intervention rapides.',
+      'Nos réalisations comprennent des hangars de grande portée, des structures de stockage, des plateformes métalliques et des extensions de bâtiments existants. Chaque projet est traité avec les matériaux et les techniques adaptés aux exigences techniques et climatiques de la région.',
+      'Du petit atelier au grand hangar industriel de plusieurs milliers de mètres carrés, DIONORD dispose des équipements et du personnel qualifié pour répondre à vos besoins dans les meilleurs délais.',
+    ],
+    prestations: [
+      'Charpente métallique tous types',
+      'Hangars industriels et agricoles',
+      'Structures de stockage et entrepôts',
+      'Ossatures métalliques pour bâtiments',
+      'Bardage et couverture métallique',
+      'Extensions et agrandissements de bâtiments',
+      'Plateformes et mezzanines métalliques',
+      'Structures modulaires démontables',
+      'Passerelles et escaliers industriels',
+    ],
+    targets: [
+      'Industriels et opérateurs de zones franches',
+      'Promoteurs immobiliers et entreprises BTP',
+      'Maîtres d\'ouvrage publics et privés',
+      'Opérateurs logistiques et entrepôts',
+      'Agriculteurs et exploitations agricoles',
+    ],
+    whyDionord: [
+      'Proximité avec les zones industrielles de Tanger Med',
+      'Bureau d\'études intégré pour les études techniques',
+      'Atelier de fabrication propre pour un contrôle qualité total',
+      'Équipe terrain expérimentée, équipement grue disponible',
+      'Délais respectés, devis transparent et détaillé',
+    ],
+    images: ['/images/realisations/charpente-construction.jpg', '/images/realisations/charpente-interieur.jpg', '/images/realisations/fabrication-atelier.jpg'],
+    heroImage: '/images/realisations/charpente-construction.jpg',
+    icon: 'Building2',
+    color: '#1B3A5C',
+    priority: 'high',
+    segment: 'B2B',
+    ticketRange: '200 000 – 5 000 000+ MAD',
+    metaTitle: 'Construction Métallique Tanger | Charpente Industrielle – DIONORD',
+    metaDescription: 'Expert en construction métallique et charpente industrielle à Tanger. Hangars, structures industrielles, ossatures métalliques sur mesure. Devis gratuit.',
+    keywords: ['construction métallique Tanger', 'charpente métallique nord Maroc', 'hangar métallique Tanger', 'structure industrielle Tanger', 'charpente métallique Maroc'],
+  },
+  {
+    slug: 'menuiserie-aluminium-inox',
+    title: 'Menuiserie Aluminium & Inox',
+    shortTitle: 'Menuiserie Alu & Inox',
+    tagline: 'Fenêtres, garde-corps, parois de douche et cloisons sur mesure',
+    description: 'Fabrication et pose de menuiseries en aluminium et inox pour projets résidentiels, commerciaux et industriels. Solutions sur mesure alliant performance et esthétique.',
+    longDescription: [
+      'DIONORD fabrique et installe des menuiseries en aluminium et inox pour tous types de projets : résidentiel, commercial, hôtelier et industriel. Chaque réalisation est conçue sur mesure pour répondre parfaitement aux exigences esthétiques et techniques de nos clients.',
+      'Notre gamme couvre l\'intégralité des besoins en menuiserie fine : des fenêtres et baies vitrées aux garde-corps d\'escalier, en passant par les parois de douche, les cloisons vitrées de bureaux et les façades aluminium. La finition et la précision de nos installations sont notre signature.',
+      'Pour les particuliers, DIONORD offre une relation de proximité : prise de mesures sur place, conception sur mesure, délais annoncés et transparence tarifaire. Pour les professionnels, nous assurons des livraisons en série et des installations sur chantier coordonnées.',
+      'L\'aluminium et l\'inox sont des matériaux durables, résistants à la corrosion et adaptés au climat côtier de la région de Tanger. Nos solutions garantissent longévité et entretien minimal.',
+    ],
+    prestations: [
+      'Fenêtres et baies vitrées aluminium',
+      'Portes et portes coulissantes',
+      'Garde-corps et rampes d\'escalier inox',
+      'Parois de douche aluminium et verre',
+      'Cloisons vitrées de bureaux et salles de réunion',
+      'Façades et murs rideaux aluminium',
+      'Pergolas et vérandas aluminium',
+      'Cuisines et placards en aluminium',
+      'Mains courantes et balustrades inox',
+    ],
+    targets: [
+      'Particuliers en construction ou rénovation',
+      'Promoteurs immobiliers',
+      'Architectes et bureaux d\'études',
+      'Hôtels et établissements touristiques',
+      'Bureaux et espaces commerciaux',
+    ],
+    whyDionord: [
+      'Fabrication en atelier propre pour un contrôle qualité optimal',
+      'Sur-mesure systématique : chaque commande est unique',
+      'Profils aluminium de haute qualité, inox alimentaire disponible',
+      'Installation soignée par des poseurs expérimentés',
+      'Devis gratuit avec prise de mesures sur site',
+    ],
+    images: ['/images/realisations/garde-corps-inox.jpg', '/images/realisations/cloisons-vitrees.jpg', '/images/realisations/paroi-douche.jpg'],
+    heroImage: '/images/realisations/garde-corps-inox.jpg',
+    icon: 'Layers',
+    color: '#2E75B6',
+    priority: 'high',
+    segment: 'B2B+B2C',
+    ticketRange: '5 000 – 500 000 MAD',
+    metaTitle: 'Menuiserie Aluminium & Inox Tanger | Fenêtres, Garde-corps – DIONORD',
+    metaDescription: 'Fabrication et pose de menuiserie aluminium et inox à Tanger. Fenêtres, garde-corps, parois de douche, cloisons vitrées sur mesure. Devis gratuit sous 48h.',
+    keywords: ['menuiserie aluminium Tanger', 'fenêtres aluminium Tanger', 'garde-corps inox Tanger', 'paroi douche Tanger', 'cloison vitrée Tanger'],
+  },
+  {
+    slug: 'installation-machines-industrielles',
+    title: 'Installation de Machines Industrielles',
+    shortTitle: 'Installation Machines',
+    tagline: 'Montage et mise en service de vos équipements de production',
+    description: 'Montage, installation et mise en service de machines et équipements industriels. Intervention en usine pour l\'assemblage, le positionnement et le raccordement des équipements.',
+    longDescription: [
+      'DIONORD intervient dans l\'installation et la mise en service d\'équipements industriels au sein des usines et ateliers de production de la région. Notre expertise couvre le montage mécanique, le positionnement précis et le raccordement des équipements.',
+      'La proximité des zones industrielles de Tanger Med, Tanger Free Zone et Tanger Automotive City nous permet d\'intervenir rapidement sur tous les sites industriels de la région. Nous travaillons avec les équipementiers, les sous-traitants automobiles et les industries légères.',
+      'Chaque intervention est précédée d\'une visite technique et d\'une coordination avec les équipes du client pour minimiser les temps d\'arrêt de production. Notre équipe est formée aux règles de sécurité industrielle et intervient dans le respect des procédures de chaque site.',
+      'Que ce soit pour une nouvelle usine en cours de démarrage, une extension de capacité ou le remplacement d\'un équipement, DIONORD vous accompagne avec réactivité et professionnalisme.',
+    ],
+    prestations: [
+      'Montage mécanique d\'équipements industriels',
+      'Positionnement et calage de machines sur rails ou dalles',
+      'Raccordement mécanique et pneumatique',
+      'Mise en service et contrôle de fonctionnement',
+      'Transfert et déménagement industriel',
+      'Modification et adaptation de machines existantes',
+      'Structures supports et châssis sur mesure',
+    ],
+    targets: [
+      'Usines automobiles et équipementiers (TFZ, TAC)',
+      'Industries agroalimentaires et chimiques',
+      'Unités de production légère et textile',
+      'Opérateurs logistiques avec équipements manutention',
+      'Nouvelles usines en phase de démarrage',
+    ],
+    whyDionord: [
+      'Intervention rapide dans toutes les zones industrielles de Tanger',
+      'Équipe formée aux règles de sécurité industrielle',
+      'Coordination sans stress avec vos équipes de production',
+      'Disponibilité flexible : weekends et nuits si nécessaire',
+      'Expertise complémentaire en construction métallique et chaudronnerie',
+    ],
+    images: ['/images/realisations/fabrication-atelier.jpg'],
+    heroImage: '/images/realisations/fabrication-atelier.jpg',
+    icon: 'Settings',
+    color: '#C0392B',
+    priority: 'medium',
+    segment: 'B2B',
+    ticketRange: '50 000 – 2 000 000 MAD',
+    metaTitle: 'Installation Machines Industrielles Tanger | Montage Équipements – DIONORD',
+    metaDescription: 'Installation et mise en service de machines industrielles à Tanger. Montage mécanique, calage, raccordement. Intervention rapide dans les zones industrielles.',
+    keywords: ['installation machines industrielles Tanger', 'montage équipements industriels Maroc', 'mise en service machines Tanger', 'installation usine Tanger'],
+  },
+  {
+    slug: 'cloture-metallique',
+    title: 'Clôture Métallique',
+    shortTitle: 'Clôture Métallique',
+    tagline: 'Protection et délimitation pour sites industriels et propriétés',
+    description: 'Conception et installation de clôtures métalliques pour la protection et la délimitation de sites industriels, terrains et propriétés résidentielles.',
+    longDescription: [
+      'DIONORD conçoit et installe des clôtures métalliques adaptées à tous types de besoins : sécurisation de sites industriels, délimitation de terrains agricoles, protection de villas et propriétés résidentielles, ou enclosure de chantiers.',
+      'Notre gamme de clôtures couvre les solutions légères (grillage simple torsion) comme les solutions haute sécurité (panneaux rigides soudés, clôtures anti-intrusion). Les portails coulissants motorisés et les barrières de contrôle d\'accès complètent notre offre.',
+      'Pour les clients industriels, nous assurons la fourniture et la pose de clôtures périmètrales de grande longueur avec poteaux en béton ou acier galvanisé. Pour les particuliers, nos solutions allient sécurité, esthétique et durabilité.',
+      'Toutes nos clôtures sont traitées contre la corrosion (galvanisation à chaud ou peinture époxy) pour une durabilité maximale dans le climat côtier de la région de Tanger.',
+    ],
+    prestations: [
+      'Clôtures grillagées (simple et double torsion)',
+      'Clôtures en panneaux rigides soudés',
+      'Portails coulissants motorisés',
+      'Portails battants simples et doubles',
+      'Barrières industrielles et de chantier',
+      'Clôtures haute sécurité anti-intrusion',
+      'Grillages et filets agricoles',
+      'Portillons piétons et portes d\'accès',
+    ],
+    targets: [
+      'Sites industriels et zones d\'activités',
+      'Propriétaires de villas et terrains',
+      'Lotissements et promoteurs',
+      'Agriculteurs et exploitations rurales',
+      'Collectivités et établissements publics',
+    ],
+    whyDionord: [
+      'Traitement anti-corrosion garanti (galva ou époxy)',
+      'Poteaux et accessoires fabriqués en atelier propre',
+      'Pose soignée avec nivellement et aplomb parfait',
+      'Motorisation fiable des portails avec service après-vente',
+      'Devis gratuit incluant métrés et étude technique',
+    ],
+    images: ['/images/realisations/fabrication-atelier.jpg'],
+    heroImage: '/images/realisations/fabrication-atelier.jpg',
+    icon: 'Shield',
+    color: '#1B3A5C',
+    priority: 'medium',
+    segment: 'B2B+B2C',
+    ticketRange: '5 000 – 200 000 MAD',
+    metaTitle: 'Clôture Métallique Tanger | Portails, Grillage Industriel – DIONORD',
+    metaDescription: 'Installation de clôtures métalliques et portails à Tanger. Grillage, panneaux rigides, portails motorisés pour sites industriels et particuliers. Devis gratuit.',
+    keywords: ['clôture métallique Tanger', 'portail coulissant Tanger', 'grillage industriel Maroc', 'clôture villa Tanger', 'portail motorisé Tanger'],
+  },
+  {
+    slug: 'systeme-incendie',
+    title: 'Système de Sécurité Incendie',
+    shortTitle: 'Sécurité Incendie',
+    tagline: 'Protection incendie conforme aux normes EN-54 et réglementation marocaine',
+    description: 'Étude, fourniture, installation et maintenance de systèmes de détection et de protection contre l\'incendie, conformes aux normes EN-54 et à la réglementation marocaine.',
+    longDescription: [
+      'DIONORD propose des solutions complètes de sécurité incendie pour les établissements industriels, commerciaux et les ERP (Établissements Recevant du Public). De l\'étude technique à la maintenance annuelle, nous assurons la conformité de vos installations aux normes en vigueur.',
+      'Nos systèmes de détection incendie sont conformes à la norme EN-54, référence internationale pour les équipements de protection incendie. Cette certification est exigée par les assureurs, les administrations et les donneurs d\'ordre industriels. DIONORD vous accompagne dans les démarches de mise en conformité.',
+      'Basés dans la région Nord du Maroc, nous sommes l\'un des rares acteurs locaux à proposer une offre complète en sécurité incendie, là où la plupart des concurrents sont concentrés à Casablanca. Notre réactivité d\'intervention dans les zones industrielles de Tanger Med est un atout majeur.',
+      'La maintenance annuelle obligatoire de vos installations est une source de sécurité pour votre établissement et un contrat de récurrence pour vous garantir un suivi professionnel à long terme.',
+    ],
+    prestations: [
+      'Étude et conception du système (plans, plans d\'évacuation)',
+      'Détection incendie (détecteurs fumée, chaleur, multi-capteurs)',
+      'Extinction automatique (sprinklers, gaz, eau brouillard)',
+      'RIA – Robinets d\'Incendie Armés',
+      'Centrales d\'alarme et tableaux de signalisation',
+      'Désenfumage et ventilation de sécurité',
+      'Signalisation d\'urgence et éclairage de sécurité',
+      'Maintenance préventive et corrective annuelle',
+      'Audit sécurité incendie gratuit',
+    ],
+    targets: [
+      'Usines et ateliers industriels',
+      'Entrepôts et plateformes logistiques',
+      'Hôtels et établissements touristiques',
+      'Cliniques et établissements de santé',
+      'Bureaux et immeubles commerciaux',
+      'Centres commerciaux et grandes surfaces',
+    ],
+    whyDionord: [
+      'Conformité certifiée normes EN-54 et réglementation marocaine',
+      'Seul acteur complet de sécurité incendie dans la région Nord',
+      'Audit sécurité incendie gratuit pour évaluer vos besoins',
+      'Maintenance annuelle avec contrat d\'entretien dédié',
+      'Intervention d\'urgence rapide dans toute la région TTA',
+    ],
+    images: ['/images/realisations/charpente-interieur.jpg'],
+    heroImage: '/images/realisations/charpente-interieur.jpg',
+    icon: 'Flame',
+    color: '#C0392B',
+    priority: 'high',
+    segment: 'B2B',
+    ticketRange: '20 000 – 500 000 MAD',
+    metaTitle: 'Système Incendie Tanger | Détection, Extinction EN-54 – DIONORD',
+    metaDescription: 'Installation et maintenance de systèmes de sécurité incendie à Tanger. Détection, sprinklers, RIA, conformité EN-54. Audit gratuit. DIONORD région Nord Maroc.',
+    keywords: ['système incendie Tanger', 'sécurité incendie Maroc', 'installation détection incendie', 'norme EN-54 Maroc', 'sprinkler Tanger', 'audit incendie gratuit'],
+  },
+  {
+    slug: 'travaux-amenagement',
+    title: 'Travaux d\'Aménagement',
+    shortTitle: 'Aménagement',
+    tagline: 'Peinture, électricité et finitions pour transformer vos espaces',
+    description: 'Réalisation de travaux d\'aménagement intérieur et extérieur : peinture, électricité, finitions et agencement pour espaces résidentiels, commerciaux et professionnels.',
+    longDescription: [
+      'DIONORD prend en charge vos travaux d\'aménagement intérieur et extérieur de A à Z. Peinture, électricité, faux plafonds, revêtements de sol et agencement : nos équipes transforment vos espaces avec soin et professionnalisme.',
+      'Pour les particuliers, nous intervenons sur les projets de rénovation d\'appartements, de villas et de locaux. Pour les professionnels, nous réalisons l\'aménagement complet de bureaux, de commerces, de cliniques et d\'hôtels.',
+      'Le service aménagement est souvent le point d\'entrée de notre relation client : une rénovation bien exécutée crée la confiance nécessaire pour confier à DIONORD des projets de plus grande envergure (menuiserie aluminium, construction métallique). Nous soignons chaque détail pour fidéliser nos clients.',
+      'Nos équipes de peintres et d\'électriciens sont formées et expérimentées. Nous utilisons des matériaux de première qualité (peintures professionnelles, câblages conformes aux normes) pour des finitions durables.',
+    ],
+    prestations: [
+      'Peinture intérieure et extérieure (décorative et professionnelle)',
+      'Installation et rénovation électrique (tableau, prises, éclairage)',
+      'Faux plafonds (placoplatre, dalles, lambris)',
+      'Revêtements de sol (carrelage, parquet, vinyle)',
+      'Cloisons légères intérieures',
+      'Agencement de locaux commerciaux et bureaux',
+      'Rénovation complète d\'appartements et villas',
+      'Finitions et travaux de second œuvre',
+    ],
+    targets: [
+      'Particuliers en rénovation ou construction',
+      'Propriétaires de locaux commerciaux',
+      'Entreprises pour aménagement de bureaux',
+      'Syndics et gestionnaires d\'immeubles',
+      'Hôtels et restaurants en rénovation',
+    ],
+    whyDionord: [
+      'Équipes polyvalentes : peinture + électricité + finitions en un seul intervenant',
+      'Matériaux de qualité professionnelle inclus dans le devis',
+      'Propreté du chantier garantie, nettoyage fin de travaux inclus',
+      'Délais respectés avec planning de chantier communiqué en avance',
+      'Service unique : possibilité d\'enchaîner avec menuiserie alu ou clôture',
+    ],
+    images: ['/images/realisations/cloisons-vitrees.jpg', '/images/realisations/paroi-douche.jpg'],
+    heroImage: '/images/realisations/paroi-douche.jpg',
+    icon: 'Paintbrush',
+    color: '#2E75B6',
+    priority: 'low',
+    segment: 'B2C',
+    ticketRange: '5 000 – 80 000 MAD',
+    metaTitle: 'Travaux Aménagement Tanger | Peinture, Électricité, Rénovation – DIONORD',
+    metaDescription: 'Travaux d\'aménagement intérieur et extérieur à Tanger. Peinture, électricité, faux plafonds, rénovation. DIONORD, votre artisan de confiance.',
+    keywords: ['travaux aménagement Tanger', 'peinture Tanger', 'rénovation intérieur Tanger', 'électricité Tanger', 'aménagement bureau Tanger'],
+  },
+]
+
+export function getServiceBySlug(slug: string): Service | undefined {
+  return services.find((s) => s.slug === slug)
+}
+
+export function getRelatedServices(slug: string, count = 3): Service[] {
+  return services.filter((s) => s.slug !== slug).slice(0, count)
+}

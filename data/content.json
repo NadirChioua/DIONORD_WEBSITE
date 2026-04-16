@@ -1,0 +1,115 @@
+{
+  "sliderImages": [
+    {
+      "id": "1",
+      "src": "/images/realisations/charpente-construction.jpg",
+      "alt": "Charpente métallique en construction – DIONORD",
+      "title": "Construction Métallique",
+      "subtitle": "Structures industrielles sur mesure"
+    },
+    {
+      "id": "2",
+      "src": "/images/realisations/charpente-interieur.jpg",
+      "alt": "Vue intérieure charpente métallique – DIONORD",
+      "title": "Hangars Industriels",
+      "subtitle": "Grande portée, haute qualité"
+    },
+    {
+      "id": "3",
+      "src": "/images/realisations/fabrication-atelier.jpg",
+      "alt": "Fabrication en atelier – DIONORD",
+      "title": "Atelier de Fabrication",
+      "subtitle": "Savoir-faire artisanal et technique"
+    },
+    {
+      "id": "4",
+      "src": "/images/realisations/garde-corps-inox.jpg",
+      "alt": "Garde-corps inox – DIONORD",
+      "title": "Menuiserie Inox",
+      "subtitle": "Finitions premium sur mesure"
+    },
+    {
+      "id": "5",
+      "src": "/images/realisations/cloisons-vitrees.jpg",
+      "alt": "Cloisons vitrées bureau – DIONORD",
+      "title": "Cloisons Aluminium & Verre",
+      "subtitle": "Espaces professionnels élégants"
+    },
+    {
+      "id": "1776313103050",
+      "src": "/uploads/untitled_gemini-3-1-flash--nano-banana-2-_2026-04-16_04-17-42-1776313103041.png",
+      "alt": "Nouvelle image DIONORD",
+      "title": "Nouveau titre",
+      "subtitle": "Sous-titre"
+    }
+  ],
+  "realisations": [
+    {
+      "id": "1",
+      "title": "Garde-corps inox escalier",
+      "description": "Installation d'un garde-corps en inox brossé pour escalier intérieur. Finition soignée, montage précis.",
+      "category": "menuiserie-aluminium-inox",
+      "images": [
+        "/images/realisations/garde-corps-inox.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "2",
+      "title": "Cloisons vitrées de bureau",
+      "description": "Séparation en aluminium et verre pour salle de réunion professionnelle. Profils aluminium laqué blanc.",
+      "category": "menuiserie-aluminium-inox",
+      "images": [
+        "/images/realisations/cloisons-vitrees.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "3",
+      "title": "Paroi de douche aluminium",
+      "description": "Paroi de douche sur mesure en aluminium et verre trempé. Installation résidentielle propre et soignée.",
+      "category": "menuiserie-aluminium-inox",
+      "images": [
+        "/images/realisations/paroi-douche.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "4",
+      "title": "Charpente métallique industrielle",
+      "description": "Construction d'une charpente métallique industrielle de grande portée. Vue extérieure avec grue, projet d'envergure.",
+      "category": "construction-metallique",
+      "images": [
+        "/images/realisations/charpente-construction.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "5",
+      "title": "Hangar industriel – vue intérieure",
+      "description": "Vue intérieure d'un hangar métallique de grande portée. Structure acier sur dalle béton, montage soigné.",
+      "category": "construction-metallique",
+      "images": [
+        "/images/realisations/charpente-interieur.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "6",
+      "title": "Fabrication structure métallique",
+      "description": "Fabrication en atelier d'une structure métallique lourde (bac/cuve). Soudure et finition de qualité industrielle.",
+      "category": "construction-metallique",
+      "images": [
+        "/images/realisations/fabrication-atelier.jpg"
+      ],
+      "featured": false
+    }
+  ],
+  "clients": [],
+  "stats": {
+    "projects": "150+",
+    "experience": "10+",
+    "zones": "Région Nord",
+    "response": "48h"
+  }
+}
