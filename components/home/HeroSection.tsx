@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronDown, ArrowRight } from 'lucide-react'
+import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getWhatsAppLink, CONTACT } from '@/lib/constants'
 
 const slides = [
@@ -42,6 +42,7 @@ const slides = [
 export default function HeroSection() {
   const [current, setCurrent] = useState(0)
   const [loaded, setLoaded] = useState(false)
+  const [paused, setPaused] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100)
@@ -49,11 +50,18 @@ export default function HeroSection() {
   }, [])
 
   useEffect(() => {
+    if (paused) return
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % slides.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [paused])
+
+  const goTo = (index: number) => {
+    setCurrent((index + slides.length) % slides.length)
+    setPaused(true)
+    setTimeout(() => setPaused(false), 8000)
+  }
 
   return (
     <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center overflow-hidden">
@@ -77,12 +85,28 @@ export default function HeroSection() {
       {/* Overlay */}
       <div className="absolute inset-0 hero-overlay" />
 
+      {/* Prev / Next arrows */}
+      <button
+        onClick={() => goTo(current - 1)}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+        aria-label="Slide précédente"
+      >
+        <ChevronLeft className="w-5 h-5 text-white" />
+      </button>
+      <button
+        onClick={() => goTo(current + 1)}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
+        aria-label="Slide suivante"
+      >
+        <ChevronRight className="w-5 h-5 text-white" />
+      </button>
+
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {slides.map((_, i) => (
           <button
             key={i}
-            onClick={() => setCurrent(i)}
+            onClick={() => goTo(i)}
             className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
               i === current ? 'bg-white w-8' : 'bg-white/40 w-4 hover:bg-white/70'
             }`}
@@ -96,15 +120,15 @@ export default function HeroSection() {
         <div className="max-w-3xl">
           {/* Logo + Badge */}
           <div
-            className={`flex items-center gap-4 mb-8 transition-all duration-1000 ${
+            className={`flex items-center gap-6 mb-8 transition-all duration-1000 ${
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            <div className="relative w-16 h-16 md:w-20 md:h-20 drop-shadow-2xl">
-              <Image src="/images/logo.png" alt="DIONORD SARL AU" fill className="object-contain" priority />
+            <div className="relative w-28 h-28 md:w-36 md:h-36 overflow-hidden flex-shrink-0 drop-shadow-2xl">
+              <Image src="/images/logo.png" alt="DIONORD SARL AU" fill className="object-cover object-[50%_25%] scale-[1.5] origin-[50%_25%]" priority sizes="144px" />
             </div>
-            <div>
-              <div className="text-white/60 text-sm font-medium tracking-widest uppercase mb-1">
+            <div className="hidden md:block border-l border-white/20 pl-6">
+              <div className="text-white/70 text-sm font-medium tracking-widest uppercase mb-1">
                 {slides[current].title}
               </div>
               <div className="text-white/40 text-xs">{slides[current].sub}</div>

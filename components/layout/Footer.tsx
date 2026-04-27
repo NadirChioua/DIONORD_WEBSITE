@@ -15,8 +15,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <div className="relative w-12 h-12">
-                <Image src="/images/logo.png" alt={SITE_NAME} fill className="object-contain" />
+              <div className="relative w-14 h-14 overflow-hidden flex-shrink-0">
+                <Image src="/images/logo.png" alt={SITE_NAME} fill className="object-cover object-[50%_20%] scale-[1.6] origin-[50%_20%]" sizes="56px" />
               </div>
               <div>
                 <div className="font-bold text-xl text-white">DIONORD</div>

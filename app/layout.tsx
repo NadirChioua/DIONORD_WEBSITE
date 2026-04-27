@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} – ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/images/hero/hero-01-charpente.jpg', width: 1200, height: 800 }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -54,7 +54,7 @@ export default function RootLayout({
               name: 'DIONORD SARL AU',
               description: SITE_DESCRIPTION,
               url: 'https://dionord.ma',
-              telephone: '+212-5XX-XX-XX-XX',
+              telephone: '+212669820191',
               email: 'contact@dionord.ma',
               address: {
                 '@type': 'PostalAddress',

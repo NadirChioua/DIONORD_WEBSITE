@@ -7,7 +7,7 @@ import { services } from '@/data/services'
 import SectionTitle from '@/components/ui/SectionTitle'
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', service: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,7 +23,7 @@ export default function ContactSection() {
 
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', phone: '', service: '', message: '' })
+        setForm({ name: '', email: '', phone: '', company: '', service: '', message: '' })
       } else {
         setStatus('error')
       }
@@ -85,16 +85,29 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-brand-blue mb-2">Email</label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="votre@email.com"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-brand-blue mb-2">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      placeholder="votre@email.com"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-semibold text-brand-blue mb-2">Entreprise</label>
+                    <input
+                      id="company"
+                      type="text"
+                      value={form.company}
+                      onChange={(e) => setForm({ ...form, company: e.target.value })}
+                      placeholder="Nom de votre société (optionnel)"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors"
+                    />
+                  </div>
                 </div>
 
                 <div>

@@ -31,14 +31,15 @@ export default function Navbar() {
       <div className="container-custom">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-            <div className="relative w-10 h-10 md:w-12 md:h-12">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 overflow-hidden flex-shrink-0">
               <Image
                 src="/images/logo.png"
                 alt="DIONORD SARL AU"
                 fill
-                className="object-contain"
+                className="object-cover object-[50%_20%] scale-[1.6] origin-[50%_20%]"
                 priority
+                sizes="56px"
               />
             </div>
             <div className="hidden sm:block">

@@ -135,11 +135,35 @@
     },
     {
       "id": "13",
-      "title": "Rénovation bureaux",
-      "description": "Rénovation complète de bureaux professionnels : peinture, faux plafond, électricité. Livré clé en main.",
+      "title": "Aménagement cuisine sur mesure",
+      "description": "Réalisation d'une cuisine équipée sur mesure avec mobilier aluminium et plan de travail en granit. Finition soignée.",
       "category": "travaux-amenagement",
       "images": ["/images/realisations/renovation-bureau.jpg"],
       "featured": false
+    },
+    {
+      "id": "14",
+      "title": "Escalier suspendu acier & bois",
+      "description": "Conception et fabrication d'un escalier suspendu à limon central acier avec marches en bois massif. Design contemporain, réalisation sur mesure.",
+      "category": "menuiserie-aluminium-inox",
+      "images": ["/images/realisations/escalier-suspendu.jpg"],
+      "featured": true
+    },
+    {
+      "id": "15",
+      "title": "Structure métallique arquée – Port de Tanger",
+      "description": "Réalisation d'une structure métallique arquée de grande envergure sur le site du Port de Tanger. Acier galvanisé, travaux en hauteur.",
+      "category": "construction-metallique",
+      "images": ["/images/realisations/structure-port-tanger.jpg"],
+      "featured": true
+    },
+    {
+      "id": "16",
+      "title": "Montage charpente avec grue",
+      "description": "Phase de montage d'une charpente métallique industrielle avec grue mobile et nacelle. Équipe expérimentée, sécurité en hauteur.",
+      "category": "construction-metallique",
+      "images": ["/images/realisations/charpente-grue.jpg"],
+      "featured": true
     }
   ],
   "clients": [],
