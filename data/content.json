@@ -34,6 +34,20 @@
       "alt": "Aménagement intérieur professionnel – DIONORD",
       "title": "Aménagement Professionnel",
       "subtitle": "Espaces de travail élégants"
+    },
+    {
+      "id": "6",
+      "src": "/images/realisations/securite-incendie/si-01.jpg",
+      "alt": "Système de sécurité incendie installé par DIONORD Tanger",
+      "title": "Sécurité Incendie",
+      "subtitle": "Conformité EN-54, protection totale"
+    },
+    {
+      "id": "7",
+      "src": "/images/realisations/installation-machines/im-01.jpg",
+      "alt": "Installation de machines industrielles par DIONORD Tanger",
+      "title": "Installation de Machines",
+      "subtitle": "Montage et mise en service industriels"
     }
   ],
   "realisations": [
@@ -59,7 +73,7 @@
       "description": "Paroi de douche sur mesure en aluminium et verre trempé. Installation résidentielle propre et soignée.",
       "category": "menuiserie-aluminium-inox",
       "images": ["/images/realisations/paroi-douche.jpg"],
-      "featured": true
+      "featured": false
     },
     {
       "id": "4",
@@ -131,12 +145,12 @@
       "description": "Montage et mise en service de machines industrielles dans une usine de la zone franche de Tanger.",
       "category": "installation-machines-industrielles",
       "images": ["/images/realisations/installation-machines.jpg"],
-      "featured": false
+      "featured": true
     },
     {
       "id": "13",
-      "title": "Aménagement cuisine sur mesure",
-      "description": "Réalisation d'une cuisine équipée sur mesure avec mobilier aluminium et plan de travail en granit. Finition soignée.",
+      "title": "Aménagement intérieur sur mesure",
+      "description": "Rénovation complète avec peinture, faux plafond et revêtements de sol. Finitions de qualité professionnelle.",
       "category": "travaux-amenagement",
       "images": ["/images/realisations/renovation-bureau.jpg"],
       "featured": false
@@ -164,6 +178,94 @@
       "category": "construction-metallique",
       "images": ["/images/realisations/charpente-grue.jpg"],
       "featured": true
+    },
+    {
+      "id": "17",
+      "title": "Dalle et structure métallique",
+      "description": "Réalisation de dalle béton et structure métallique porteuse pour bâtiment industriel. Coordination charpente et gros œuvre.",
+      "category": "construction-metallique",
+      "images": ["/images/realisations/charpente-dalle.jpg"],
+      "featured": false
+    },
+    {
+      "id": "18",
+      "title": "Montage charpente industrielle",
+      "description": "Assemblage et montage d'une charpente métallique industrielle. Travail d'équipe, précision et sécurité sur chantier.",
+      "category": "construction-metallique",
+      "images": ["/images/realisations/montage-charpente.jpg"],
+      "featured": false
+    },
+    {
+      "id": "19",
+      "title": "Système de sécurité incendie – site industriel",
+      "description": "Installation complète d'un système SSI sur site industriel : détecteurs, centrale et signalisation d'évacuation.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/securite-incendie/si-01.jpg"],
+      "featured": true
+    },
+    {
+      "id": "20",
+      "title": "Détection incendie – bâtiment commercial",
+      "description": "Pose de détecteurs de fumée et de chaleur dans un bâtiment commercial. Conformité norme EN-54.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/securite-incendie/si-02.jpg"],
+      "featured": true
+    },
+    {
+      "id": "21",
+      "title": "RIA et extincteurs – entrepôt logistique",
+      "description": "Installation de Robinets d'Incendie Armés et extincteurs muraux pour entrepôt logistique Tanger.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/securite-incendie/si-03.jpg"],
+      "featured": false
+    },
+    {
+      "id": "22",
+      "title": "Centrale de détection incendie",
+      "description": "Mise en place d'une centrale SSI avec tableau de signalisation et report d'alarme. Site industriel Tanger Free Zone.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/securite-incendie/si-04.jpg"],
+      "featured": false
+    },
+    {
+      "id": "23",
+      "title": "Réseau sprinklers – zone de production",
+      "description": "Installation d'un réseau de sprinklers couvrant une zone de production industrielle. Conformité réglementation incendie.",
+      "category": "systeme-incendie",
+      "images": ["/images/realisations/securite-incendie/si-05.jpg"],
+      "featured": false
+    },
+    {
+      "id": "24",
+      "title": "Montage équipement industriel",
+      "description": "Positionnement et calage d'un équipement industriel lourd sur sa fondation. Alignement précis, levage sécurisé.",
+      "category": "installation-machines-industrielles",
+      "images": ["/images/realisations/installation-machines/im-01.jpg"],
+      "featured": true
+    },
+    {
+      "id": "25",
+      "title": "Installation ligne de production",
+      "description": "Montage mécanique d'une ligne de production dans une usine de la zone franche de Tanger. Raccordements et mise en service.",
+      "category": "installation-machines-industrielles",
+      "images": ["/images/realisations/installation-machines/im-02.jpg"],
+      "featured": true
+    },
+    {
+      "id": "26",
+      "title": "Mise en service machine industrielle",
+      "description": "Raccordement mécanique et coordination de mise en service d'une machine de production dans une usine automobile.",
+      "category": "installation-machines-industrielles",
+      "images": ["/images/realisations/installation-machines/im-03.jpg"],
+      "featured": false
+    },
+    {
+      "id": "27",
+      "title": "Transfert et repositionnement machines",
+      "description": "Déplacement et repositionnement de machines industrielles lors d'une reconfiguration d'atelier de production.",
+      "category": "installation-machines-industrielles",
+      "images": ["/images/realisations/installation-machines/im-04.jpg"],
+      "featured": false
     }
   ],
   "clients": [],
