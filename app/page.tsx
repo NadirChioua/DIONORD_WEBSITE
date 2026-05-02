@@ -3,6 +3,7 @@ import HeroSection from '@/components/home/HeroSection'
 import AboutSection from '@/components/home/AboutSection'
 import ServicesSection from '@/components/home/ServicesSection'
 import RealisationsSection from '@/components/home/RealisationsSection'
+import ClientsSection from '@/components/home/ClientsSection'
 import TrustSection from '@/components/home/TrustSection'
 import ContactSection from '@/components/home/ContactSection'
 
@@ -20,6 +21,7 @@ export default function HomePage() {
       <AboutSection />
       <ServicesSection />
       <RealisationsSection />
+      <ClientsSection />
       <TrustSection />
       <ContactSection />
     </>

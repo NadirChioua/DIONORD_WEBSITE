@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { LogOut, Upload, Trash2, Plus, Save, Eye, GripVertical, ImageIcon } from 'lucide-react'
+import { LogOut, Upload, Trash2, Plus, Save, Eye, GripVertical, ImageIcon, Users, ChevronUp, ChevronDown } from 'lucide-react'
 
 interface SliderImage {
   id: string
@@ -21,10 +21,21 @@ interface Realisation {
   featured: boolean
 }
 
+interface ClientEntry {
+  id: string
+  name: string
+  shortName: string
+  logo: string
+  type: string
+  description: string
+  website?: string
+  location: string
+}
+
 interface ContentData {
   sliderImages: SliderImage[]
   realisations: Realisation[]
-  clients: unknown[]
+  clients: ClientEntry[]
   stats: Record<string, string>
 }
 
@@ -37,28 +48,25 @@ const categories = [
   { id: 'travaux-amenagement', label: 'Aménagement' },
 ]
 
+const emptyClient: Omit<ClientEntry, 'id'> = {
+  name: '', shortName: '', logo: '', type: '', description: '', website: '', location: '',
+}
+
 export default function AdminPage() {
   const [isAuth, setIsAuth] = useState(false)
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
   const [content, setContent] = useState<ContentData | null>(null)
-  const [activeTab, setActiveTab] = useState<'slider' | 'realisations'>('slider')
+  const [activeTab, setActiveTab] = useState<'slider' | 'realisations' | 'clients'>('slider')
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   const [uploading, setUploading] = useState(false)
-
-  // New realisation form
   const [newReal, setNewReal] = useState({ title: '', description: '', category: 'construction-metallique', images: [] as string[], featured: false })
+  const [newClient, setNewClient] = useState<Omit<ClientEntry, 'id'>>(emptyClient)
 
   useEffect(() => {
-    // Check if already authed
     fetch('/api/admin/content')
-      .then((r) => {
-        if (r.ok) {
-          setIsAuth(true)
-          return r.json()
-        }
-      })
+      .then((r) => { if (r.ok) { setIsAuth(true); return r.json() } })
       .then((data) => { if (data) setContent(data) })
       .catch(() => {})
   }, [])
@@ -99,13 +107,13 @@ export default function AdminPage() {
     setTimeout(() => setSaveMsg(''), 3000)
   }
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, onSuccess: (path: string) => void) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, onSuccess: (path: string) => void, folder = 'uploads') => {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
     const formData = new FormData()
     formData.append('file', file)
-    formData.append('folder', 'uploads')
+    formData.append('folder', folder)
     const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
     setUploading(false)
     if (res.ok) {
@@ -115,44 +123,48 @@ export default function AdminPage() {
     e.target.value = ''
   }
 
+  // Slider helpers
   const removeSliderImage = (id: string) => {
     if (!content) return
     setContent({ ...content, sliderImages: content.sliderImages.filter((s) => s.id !== id) })
   }
-
   const addSliderImage = (src: string) => {
     if (!content) return
-    const newSlide: SliderImage = {
-      id: Date.now().toString(),
-      src,
-      alt: 'Nouvelle image DIONORD',
-      title: 'Nouveau titre',
-      subtitle: 'Sous-titre',
-    }
-    setContent({ ...content, sliderImages: [...content.sliderImages, newSlide] })
+    setContent({ ...content, sliderImages: [...content.sliderImages, { id: Date.now().toString(), src, alt: 'Nouvelle image DIONORD', title: 'Nouveau titre', subtitle: 'Sous-titre' }] })
   }
-
   const updateSlider = (id: string, field: keyof SliderImage, value: string) => {
     if (!content) return
-    setContent({
-      ...content,
-      sliderImages: content.sliderImages.map((s) => s.id === id ? { ...s, [field]: value } : s),
-    })
+    setContent({ ...content, sliderImages: content.sliderImages.map((s) => s.id === id ? { ...s, [field]: value } : s) })
   }
 
+  // Realisation helpers
   const removeRealisation = (id: string) => {
     if (!content) return
     setContent({ ...content, realisations: content.realisations.filter((r) => r.id !== id) })
   }
-
   const addRealisation = () => {
     if (!content || !newReal.title) return
-    const newEntry: Realisation = {
-      id: Date.now().toString(),
-      ...newReal,
-    }
-    setContent({ ...content, realisations: [...content.realisations, newEntry] })
+    setContent({ ...content, realisations: [...content.realisations, { id: Date.now().toString(), ...newReal }] })
     setNewReal({ title: '', description: '', category: 'construction-metallique', images: [], featured: false })
+  }
+
+  // Client helpers
+  const addClient = () => {
+    if (!content || !newClient.name) return
+    setContent({ ...content, clients: [...(content.clients ?? []), { id: Date.now().toString(), ...newClient }] })
+    setNewClient(emptyClient)
+  }
+  const removeClient = (id: string) => {
+    if (!content) return
+    setContent({ ...content, clients: content.clients.filter((c) => c.id !== id) })
+  }
+  const moveClient = (id: string, direction: 'up' | 'down') => {
+    if (!content) return
+    const list = [...content.clients]
+    const idx = list.findIndex((c) => c.id === id)
+    if (direction === 'up' && idx > 0) [list[idx - 1], list[idx]] = [list[idx], list[idx - 1]]
+    if (direction === 'down' && idx < list.length - 1) [list[idx], list[idx + 1]] = [list[idx + 1], list[idx]]
+    setContent({ ...content, clients: list })
   }
 
   if (!isAuth) {
@@ -169,18 +181,12 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-brand-blue mb-2">Mot de passe</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red"
-              />
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red" />
             </div>
             {authError && <p className="text-red-500 text-sm">{authError}</p>}
-            <button type="submit" className="btn-primary w-full justify-center">
-              Se connecter
-            </button>
+            <button type="submit" className="btn-primary w-full justify-center">Se connecter</button>
           </form>
         </div>
       </div>
@@ -197,7 +203,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin Navbar */}
+      {/* Navbar */}
       <div className="bg-brand-dark text-white px-6 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
           <div className="relative w-8 h-8">
@@ -208,26 +214,24 @@ export default function AdminPage() {
         <div className="flex items-center gap-3">
           <a href="/" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors">
-            <Eye className="w-4 h-4" />
-            Voir le site
+            <Eye className="w-4 h-4" />Voir le site
           </a>
           <button onClick={handleLogout} className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors cursor-pointer">
-            <LogOut className="w-4 h-4" />
-            Déconnexion
+            <LogOut className="w-4 h-4" />Déconnexion
           </button>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
-        {/* Save Bar */}
+        {/* Tab bar + save */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex gap-3">
-            {(['slider', 'realisations'] as const).map((tab) => (
+            {(['slider', 'realisations', 'clients'] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-lg font-semibold text-sm transition-all cursor-pointer ${
                   activeTab === tab ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}>
-                {tab === 'slider' ? 'Slider Hero' : 'Réalisations'}
+                {tab === 'slider' ? 'Slider Hero' : tab === 'realisations' ? 'Réalisations' : 'Clients'}
               </button>
             ))}
           </div>
@@ -241,7 +245,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Slider Tab */}
+        {/* ── Slider Tab ─────────────────────────────────────────────────── */}
         {activeTab === 'slider' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -253,7 +257,6 @@ export default function AdminPage() {
                   onChange={(e) => handleUpload(e, addSliderImage)} disabled={uploading} />
               </label>
             </div>
-
             <div className="grid grid-cols-1 gap-4">
               {content.sliderImages.map((slide) => (
                 <div key={slide.id} className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex gap-5 items-start">
@@ -291,14 +294,12 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Réalisations Tab */}
+        {/* ── Réalisations Tab ───────────────────────────────────────────── */}
         {activeTab === 'realisations' && (
           <div className="space-y-6">
-            {/* Add new */}
             <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
               <h3 className="font-bold text-brand-blue mb-4 flex items-center gap-2">
-                <Plus className="w-5 h-5 text-brand-red" />
-                Ajouter une réalisation
+                <Plus className="w-5 h-5 text-brand-red" />Ajouter une réalisation
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -345,14 +346,10 @@ export default function AdminPage() {
                   </label>
                 </div>
               </div>
-              <button onClick={addRealisation}
-                className="mt-4 btn-primary text-sm">
-                <Plus className="w-4 h-4" />
-                Ajouter la réalisation
+              <button onClick={addRealisation} className="mt-4 btn-primary text-sm">
+                <Plus className="w-4 h-4" />Ajouter la réalisation
               </button>
             </div>
-
-            {/* List */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {content.realisations.map((real) => (
                 <div key={real.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -360,9 +357,7 @@ export default function AdminPage() {
                     <div className="relative h-40 bg-gray-100">
                       <Image src={real.images[0]} alt={real.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                       {real.featured && (
-                        <div className="absolute top-2 left-2 bg-brand-red text-white text-xs px-2 py-0.5 rounded-full font-semibold">
-                          En avant
-                        </div>
+                        <div className="absolute top-2 left-2 bg-brand-red text-white text-xs px-2 py-0.5 rounded-full font-semibold">En avant</div>
                       )}
                     </div>
                   )}
@@ -383,6 +378,130 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Clients Tab ────────────────────────────────────────────────── */}
+        {activeTab === 'clients' && (
+          <div className="space-y-6">
+            {/* Add form */}
+            <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+              <h3 className="font-bold text-brand-blue mb-4 flex items-center gap-2">
+                <Plus className="w-5 h-5 text-brand-red" />Ajouter un client
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Nom complet *</label>
+                  <input type="text" value={newClient.name}
+                    onChange={(e) => setNewClient({ ...newClient, name: e.target.value })}
+                    placeholder="ex: Groupe Amana"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Nom court</label>
+                  <input type="text" value={newClient.shortName}
+                    onChange={(e) => setNewClient({ ...newClient, shortName: e.target.value })}
+                    placeholder="ex: Amana"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Type / Secteur</label>
+                  <input type="text" value={newClient.type}
+                    onChange={(e) => setNewClient({ ...newClient, type: e.target.value })}
+                    placeholder="ex: Promoteur immobilier"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Localisation</label>
+                  <input type="text" value={newClient.location}
+                    onChange={(e) => setNewClient({ ...newClient, location: e.target.value })}
+                    placeholder="ex: Tanger"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Site web (optionnel)</label>
+                  <input type="url" value={newClient.website}
+                    onChange={(e) => setNewClient({ ...newClient, website: e.target.value })}
+                    placeholder="https://..."
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Logo</label>
+                  <div className="flex items-center gap-3">
+                    {newClient.logo && (
+                      <div className="relative w-16 h-10 rounded overflow-hidden bg-gray-100 border border-gray-200">
+                        <Image src={newClient.logo} alt="logo preview" fill className="object-contain p-1" sizes="64px" unoptimized />
+                      </div>
+                    )}
+                    <label className="flex items-center gap-2 text-sm font-medium text-brand-blue border border-brand-blue rounded-lg px-3 py-2 hover:bg-brand-blue/5 transition-colors cursor-pointer">
+                      <ImageIcon className="w-4 h-4" />
+                      {uploading ? 'Upload...' : 'Logo'}
+                      <input type="file" accept="image/*,.svg" className="hidden"
+                        onChange={(e) => handleUpload(e, (path) => setNewClient({ ...newClient, logo: path }), 'clients')} />
+                    </label>
+                  </div>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Description courte</label>
+                  <textarea rows={2} value={newClient.description}
+                    onChange={(e) => setNewClient({ ...newClient, description: e.target.value })}
+                    placeholder="Courte description du client"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-red resize-none" />
+                </div>
+              </div>
+              <button onClick={addClient} className="mt-4 btn-primary text-sm">
+                <Plus className="w-4 h-4" />Ajouter le client
+              </button>
+            </div>
+
+            {/* Client list */}
+            <div className="space-y-3">
+              <h3 className="font-bold text-brand-blue flex items-center gap-2">
+                <Users className="w-5 h-5 text-brand-red" />
+                Clients ({(content.clients ?? []).length})
+              </h3>
+              {(content.clients ?? []).length === 0 ? (
+                <div className="text-center py-10 text-gray-400 bg-white rounded-xl border border-gray-100">
+                  Aucun client configuré. Les clients affichés sur le site viennent de <code className="text-xs bg-gray-100 px-1 rounded">data/clients.ts</code>.
+                </div>
+              ) : (
+                (content.clients ?? []).map((client, idx) => (
+                  <div key={client.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
+                    <div className="flex flex-col gap-1">
+                      <button onClick={() => moveClient(client.id, 'up')} disabled={idx === 0}
+                        className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-30 cursor-pointer">
+                        <ChevronUp className="w-4 h-4 text-gray-500" />
+                      </button>
+                      <button onClick={() => moveClient(client.id, 'down')} disabled={idx === (content.clients ?? []).length - 1}
+                        className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-30 cursor-pointer">
+                        <ChevronDown className="w-4 h-4 text-gray-500" />
+                      </button>
+                    </div>
+                    <div className="relative w-20 h-12 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+                      {client.logo ? (
+                        <Image src={client.logo} alt={client.name} fill className="object-contain p-1" sizes="80px" unoptimized={client.logo.endsWith('.svg')} />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-300">
+                          <ImageIcon className="w-5 h-5" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-brand-blue text-sm truncate">{client.name}</h4>
+                      <p className="text-xs text-gray-500 truncate">{client.type} · {client.location}</p>
+                      {client.website && (
+                        <a href={client.website} target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-brand-blue-mid hover:underline truncate block">{client.website}</a>
+                      )}
+                    </div>
+                    <button onClick={() => removeClient(client.id)}
+                      className="w-9 h-9 bg-red-50 hover:bg-red-100 rounded-lg flex items-center justify-center text-red-500 transition-colors cursor-pointer flex-shrink-0">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
