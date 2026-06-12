@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Limit build-time parallelism to avoid OOM on low-memory machines.
+  // Only affects the build/static-generation phase, not runtime performance.
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+  },
   images: {
     remotePatterns: [],
     formats: ['image/webp', 'image/avif'],

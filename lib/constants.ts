@@ -16,9 +16,9 @@ export const CONTACT = {
 }
 
 export const SOCIALS = {
-  linkedin: '#',
-  facebook: '#',
-  instagram: '#',
+  linkedin: 'https://www.linkedin.com/company/dionord/',
+  instagram: 'https://www.instagram.com/dionord.sarl',
+  facebook: 'https://www.facebook.com/share/1DMT6yQGXn/',
 }
 
 export const COLORS = {

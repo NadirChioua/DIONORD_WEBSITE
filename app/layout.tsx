@@ -3,7 +3,7 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
-import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from '@/lib/constants'
+import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SOCIALS } from '@/lib/constants'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://dionord.ma'),
@@ -82,7 +82,7 @@ export default function RootLayout({
                   closes: '13:00',
                 },
               ],
-              sameAs: [],
+              sameAs: [SOCIALS.linkedin, SOCIALS.instagram, SOCIALS.facebook],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',
                 name: 'Services DIONORD',

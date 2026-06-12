@@ -27,13 +27,13 @@ export default function Footer() {
               Entreprise spécialisée en construction métallique, menuiserie aluminium & inox, sécurité incendie et aménagement à Tanger, Maroc.
             </p>
             <div className="flex gap-3">
-              <a href={SOCIALS.linkedin} className="w-9 h-9 bg-white/10 hover:bg-brand-blue-mid rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="LinkedIn">
+              <a href={SOCIALS.linkedin} target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 hover:bg-brand-blue-mid rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
               </a>
-              <a href={SOCIALS.facebook} className="w-9 h-9 bg-white/10 hover:bg-[#1877F2] rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="Facebook">
+              <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 hover:bg-[#1877F2] rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="Facebook">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href={SOCIALS.instagram} className="w-9 h-9 bg-white/10 hover:bg-[#E1306C] rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="Instagram">
+              <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 hover:bg-[#E1306C] rounded-lg flex items-center justify-center transition-colors cursor-pointer" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
             </div>

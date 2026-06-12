@@ -23,9 +23,9 @@ export async function POST(request: Request) {
     }
 
     // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg']
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/svg+xml']
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Type de fichier non autorisé (JPG, PNG, WebP uniquement)' }, { status: 400 })
+      return NextResponse.json({ error: 'Type de fichier non autorisé (JPG, PNG, WebP, SVG uniquement)' }, { status: 400 })
     }
 
     // Max 10MB
