@@ -1,67 +1,135 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
+// Nodemailer a besoin du runtime Node.js (pas Edge)
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
+const MAX_LENGTH = { name: 120, email: 200, phone: 40, company: 160, service: 160, message: 5000 }
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function clean(value: unknown, max: number) {
+  return typeof value === 'string' ? value.trim().slice(0, max) : ''
+}
+
 export async function POST(request: Request) {
+  let body: Record<string, unknown>
   try {
-    const body = await request.json()
-    const { name, email, phone, company, service, message } = body
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Requête invalide' }, { status: 400 })
+  }
 
-    if (!name || !phone || !message) {
-      return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 })
-    }
+  // Champ piège anti-spam : invisible pour les humains, rempli par les robots
+  if (clean(body.website, 200)) {
+    return NextResponse.json({ success: true })
+  }
 
-    const subject = `[DIONORD] Nouvelle demande – ${service || 'Non spécifié'} – ${name}`
-    const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: #1B3A5C; padding: 20px; border-radius: 8px 8px 0 0;">
-          <h2 style="color: white; margin: 0;">Nouvelle demande de contact DIONORD</h2>
-        </div>
-        <div style="background: #f5f5f5; padding: 24px; border-radius: 0 0 8px 8px;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; font-weight: bold; width: 140px; color: #1B3A5C;">Nom :</td><td style="padding: 8px 0;">${name}</td></tr>
-            <tr><td style="padding: 8px 0; font-weight: bold; color: #1B3A5C;">Téléphone :</td><td style="padding: 8px 0;"><a href="tel:${phone}" style="color: #C0392B;">${phone}</a></td></tr>
-            ${email ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #1B3A5C;">Email :</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>` : ''}
-            ${company ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #1B3A5C;">Entreprise :</td><td style="padding: 8px 0;">${company}</td></tr>` : ''}
-            ${service ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #1B3A5C;">Service :</td><td style="padding: 8px 0;">${service}</td></tr>` : ''}
-          </table>
-          <div style="margin-top: 16px; padding: 16px; background: white; border-left: 4px solid #C0392B; border-radius: 4px;">
-            <p style="font-weight: bold; color: #1B3A5C; margin: 0 0 8px;">Message :</p>
-            <p style="margin: 0; white-space: pre-wrap;">${message}</p>
-          </div>
+  const name = clean(body.name, MAX_LENGTH.name)
+  const email = clean(body.email, MAX_LENGTH.email)
+  const phone = clean(body.phone, MAX_LENGTH.phone)
+  const company = clean(body.company, MAX_LENGTH.company)
+  const service = clean(body.service, MAX_LENGTH.service)
+  const message = clean(body.message, MAX_LENGTH.message)
+
+  if (!name || !phone || !message) {
+    return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 })
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ error: 'Adresse email invalide' }, { status: 400 })
+  }
+
+  const { SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, CONTACT_EMAIL } = process.env
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+    // Ne jamais afficher "succès" si la demande ne peut pas être transmise
+    console.error('Contact form: SMTP non configuré (SMTP_HOST / SMTP_USER / SMTP_PASS manquants)', {
+      name,
+      phone,
+      email,
+      company,
+      service,
+      message,
+    })
+    return NextResponse.json({ error: 'Service email indisponible' }, { status: 503 })
+  }
+
+  const date = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Casablanca' })
+  const rows: [string, string][] = [
+    ['Nom', name],
+    ['Téléphone', phone],
+    ['Email', email],
+    ['Entreprise', company],
+    ['Service', service],
+    ['Date', date],
+  ]
+
+  const subject = `[DIONORD] Nouvelle demande – ${service || 'Non spécifié'} – ${name}`.replace(/[\r\n]+/g, ' ')
+  const text = [
+    'Nouvelle demande de contact – site dionord.com',
+    '',
+    ...rows.filter(([, v]) => v).map(([k, v]) => `${k} : ${v}`),
+    '',
+    'Message :',
+    message,
+  ].join('\n')
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: #1B3A5C; padding: 20px; border-radius: 8px 8px 0 0;">
+        <h2 style="color: white; margin: 0;">Nouvelle demande de contact DIONORD</h2>
+      </div>
+      <div style="background: #f5f5f5; padding: 24px; border-radius: 0 0 8px 8px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          ${rows
+            .filter(([, v]) => v)
+            .map(([k, v]) => {
+              const safe = escapeHtml(v)
+              const value =
+                k === 'Téléphone'
+                  ? `<a href="tel:${safe.replace(/\s/g, '')}" style="color: #C0392B;">${safe}</a>`
+                  : k === 'Email'
+                    ? `<a href="mailto:${safe}">${safe}</a>`
+                    : safe
+              return `<tr><td style="padding: 8px 0; font-weight: bold; width: 140px; color: #1B3A5C;">${k} :</td><td style="padding: 8px 0;">${value}</td></tr>`
+            })
+            .join('')}
+        </table>
+        <div style="margin-top: 16px; padding: 16px; background: white; border-left: 4px solid #C0392B; border-radius: 4px;">
+          <p style="font-weight: bold; color: #1B3A5C; margin: 0 0 8px;">Message :</p>
+          <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
         </div>
       </div>
-    `
+    </div>
+  `
 
-    if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: process.env.SMTP_SECURE === 'true',
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      })
+  try {
+    const transporter = nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: Number(SMTP_PORT) || 587,
+      secure: SMTP_SECURE === 'true',
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
+    })
 
-      await transporter.sendMail({
-        from: `"DIONORD Site Web" <${process.env.SMTP_USER}>`,
-        to: process.env.CONTACT_EMAIL || 'contact@dionord.ma',
-        replyTo: email || undefined,
-        subject,
-        html,
-      })
-    } else {
-      // SMTP not configured — log for server visibility
-      console.log('=== Nouvelle demande DIONORD (SMTP non configuré) ===')
-      console.log(`Nom: ${name} | Tél: ${phone} | Email: ${email || '-'} | Société: ${company || '-'}`)
-      console.log(`Service: ${service || '-'}`)
-      console.log(`Message: ${message}`)
-      console.log('====================================================')
-    }
+    await transporter.sendMail({
+      from: `"DIONORD Site Web" <${SMTP_USER}>`,
+      to: CONTACT_EMAIL || SMTP_USER,
+      replyTo: email || undefined,
+      subject,
+      text,
+      html,
+    })
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Contact form error:', error)
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+    console.error('Contact form: échec de l\'envoi email', error, { name, phone, email, service, message })
+    return NextResponse.json({ error: 'Échec de l\'envoi' }, { status: 502 })
   }
 }

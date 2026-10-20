@@ -7,7 +7,7 @@ import { services } from '@/data/services'
 import SectionTitle from '@/components/ui/SectionTitle'
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', service: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', service: '', message: '', website: '' })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,14 +21,14 @@ export default function ContactPage() {
       })
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', phone: '', company: '', service: '', message: '' })
+        setForm({ name: '', email: '', phone: '', company: '', service: '', message: '', website: '' })
       } else {
         setStatus('error')
       }
     } catch {
       setStatus('error')
     }
-    setTimeout(() => setStatus('idle'), 6000)
+    setTimeout(() => setStatus((s) => (s === 'success' ? 'idle' : s)), 6000)
   }
 
   return (
@@ -104,6 +104,17 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Champ piège anti-spam (invisible) */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={form.website}
+                    onChange={(e) => setForm({ ...form, website: e.target.value })}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-brand-blue mb-2">Nom complet *</label>
@@ -162,7 +173,10 @@ export default function ContactPage() {
 
                   {status === 'error' && (
                     <div className="text-red-500 text-sm bg-red-50 border border-red-100 px-4 py-3 rounded-lg">
-                      Une erreur est survenue. Veuillez réessayer ou nous contacter directement sur WhatsApp.
+                      Votre demande n&apos;a pas pu être envoyée. Merci de nous contacter directement sur{' '}
+                      <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="font-semibold underline">WhatsApp</a>
+                      {' '}ou au{' '}
+                      <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className="font-semibold underline whitespace-nowrap">{CONTACT.phone}</a>.
                     </div>
                   )}
 
