@@ -42,7 +42,8 @@ export default function RealisationsPage() {
         <div className="container-custom">
           <SectionTitle
             label="Portfolio"
-            title="Nos Réalisations"
+            title="Nos Réalisations à Tanger et au Nord du Maroc"
+            as="h1"
             subtitle="Chaque projet est une preuve de notre savoir-faire. Découvrez nos réalisations en construction métallique, menuiserie aluminium, sécurité incendie et aménagement."
             centered
             light

@@ -18,7 +18,25 @@ export interface Service {
   metaTitle: string
   metaDescription: string
   keywords: string[]
+  faq: { question: string; answer: string }[]
 }
+
+// Villes et zones couvertes – affichées sur chaque page service et déclarées en données structurées
+export const SERVICE_AREAS = [
+  'Tanger',
+  'Tanger Med',
+  'Tanger Free Zone',
+  'Tanger Automotive City',
+  'Tétouan',
+  'M\'diq',
+  'Fnideq',
+  'Martil',
+  'Asilah',
+  'Larache',
+  'Ksar El Kébir',
+  'Al Hoceima',
+  'Chefchaouen',
+]
 
 export const services: Service[] = [
   {
@@ -68,9 +86,27 @@ export const services: Service[] = [
     priority: 'high',
     segment: 'B2B',
     ticketRange: '200 000 – 5 000 000+ MAD',
-    metaTitle: 'Construction Métallique Tanger | Charpente Industrielle – DIONORD',
-    metaDescription: 'Expert en construction métallique et charpente industrielle à Tanger. Hangars, structures industrielles, ossatures métalliques sur mesure. Devis gratuit.',
-    keywords: ['construction métallique Tanger', 'charpente métallique nord Maroc', 'hangar métallique Tanger', 'structure industrielle Tanger', 'charpente métallique Maroc'],
+    metaTitle: 'Construction Métallique Tanger | Hangar & Charpente – DIONORD',
+    metaDescription: 'Construction métallique à Tanger et au Nord du Maroc : charpente, hangars, entrepôts, mezzanines. Étude, fabrication en atelier et montage. Devis gratuit 48h.',
+    keywords: ['construction métallique Tanger', 'charpente métallique Tanger', 'hangar métallique Tanger', 'construction hangar Maroc', 'charpente métallique nord Maroc', 'structure métallique Tétouan', 'mezzanine métallique Tanger', 'entrepôt métallique Tanger', 'bardage métallique Tanger'],
+    faq: [
+      {
+        question: 'Quel est le prix d\'un hangar métallique à Tanger ?',
+        answer: 'Le prix dépend de la surface, de la portée, de la hauteur et du type de couverture. À titre indicatif, nos projets de construction métallique se situent entre 200 000 et plus de 5 000 000 MAD. Nous établissons un devis détaillé et gratuit sous 48h après étude de votre projet.',
+      },
+      {
+        question: 'Réalisez-vous l\'étude technique de la charpente ?',
+        answer: 'Oui. Notre bureau d\'études intégré réalise les plans et les notes de calcul, puis la structure est fabriquée dans notre atelier à Tanger et montée sur site par nos équipes avec les moyens de levage adaptés.',
+      },
+      {
+        question: 'Intervenez-vous dans les zones franches de Tanger ?',
+        answer: 'Oui, nous intervenons à Tanger Free Zone, Tanger Automotive City, Tanger Med, Gueznaya, MedHub ainsi que dans toute la région Tanger-Tétouan-Al Hoceima.',
+      },
+      {
+        question: 'Quels types de structures métalliques fabriquez-vous ?',
+        answer: 'Charpentes industrielles et commerciales, hangars et entrepôts, ossatures et portiques, plateformes, mezzanines et passerelles, bardage et couverture, extensions et surélévations de bâtiments.',
+      },
+    ],
   },
   {
     slug: 'menuiserie-aluminium-inox',
@@ -119,9 +155,27 @@ export const services: Service[] = [
     priority: 'high',
     segment: 'B2B+B2C',
     ticketRange: '5 000 – 500 000 MAD',
-    metaTitle: 'Menuiserie Aluminium & Inox Tanger | Façades, Garde-corps – DIONORD',
-    metaDescription: 'Fabrication et pose de menuiserie aluminium et inox à Tanger. Façades vitrées, garde-corps, cloisons vitrées sur mesure. Devis gratuit sous 48h.',
-    keywords: ['menuiserie aluminium Tanger', 'façade vitrée Tanger', 'garde-corps inox Tanger', 'mur rideau Tanger', 'cloison vitrée Tanger'],
+    metaTitle: 'Menuiserie Aluminium Tanger | Fenêtres, Façades, Inox – DIONORD',
+    metaDescription: 'Menuiserie aluminium et inox à Tanger : fenêtres, baies coulissantes, façades vitrées, cloisons de bureau, garde-corps inox. Sur mesure, pose incluse. Devis 48h.',
+    keywords: ['menuiserie aluminium Tanger', 'fenêtre aluminium Tanger', 'baie vitrée coulissante Tanger', 'façade vitrée Tanger', 'garde-corps inox Tanger', 'rampe escalier inox Tanger', 'cloison vitrée bureau Tanger', 'mur rideau Maroc', 'véranda aluminium Tanger', 'menuiserie aluminium Tétouan'],
+    faq: [
+      {
+        question: 'Fabriquez-vous des fenêtres et portes en aluminium sur mesure ?',
+        answer: 'Oui. Toutes nos menuiseries (fenêtres, baies vitrées, portes coulissantes, vérandas) sont fabriquées sur mesure dans notre atelier après une prise de mesures sur site, puis posées par nos équipes.',
+      },
+      {
+        question: 'Quel est le prix d\'une menuiserie aluminium à Tanger ?',
+        answer: 'Selon le projet, de 5 000 MAD pour un ouvrage simple (garde-corps, paroi de douche) jusqu\'à 500 000 MAD pour une façade vitrée complète. Le devis est gratuit et inclut la prise de mesures.',
+      },
+      {
+        question: 'Posez-vous des garde-corps et rampes d\'escalier en inox ?',
+        answer: 'Oui, nous fabriquons et installons des garde-corps, rampes, mains courantes et habillages en inox pour villas, immeubles, hôtels et bâtiments professionnels.',
+      },
+      {
+        question: 'Travaillez-vous pour les particuliers et les professionnels ?',
+        answer: 'Oui, nous travaillons aussi bien pour les particuliers en construction ou rénovation que pour les promoteurs, architectes, hôtels et bureaux à Tanger, Tétouan et dans tout le Nord du Maroc.',
+      },
+    ],
   },
   {
     slug: 'installation-machines-industrielles',
@@ -168,9 +222,23 @@ export const services: Service[] = [
     priority: 'medium',
     segment: 'B2B',
     ticketRange: '50 000 – 2 000 000 MAD',
-    metaTitle: 'Installation Machines Industrielles Tanger | Montage Équipements – DIONORD',
-    metaDescription: 'Installation et mise en service de machines industrielles à Tanger. Montage mécanique, calage, raccordement. Intervention rapide dans les zones industrielles.',
-    keywords: ['installation machines industrielles Tanger', 'montage équipements industriels Maroc', 'mise en service machines Tanger', 'installation usine Tanger'],
+    metaTitle: 'Installation Machines Industrielles Tanger | Montage – DIONORD',
+    metaDescription: 'Installation, montage mécanique et mise en service de machines et lignes de production à Tanger (TFZ, TAC, Tanger Med). Transfert industriel. Devis gratuit 48h.',
+    keywords: ['installation machines industrielles Tanger', 'montage équipements industriels Maroc', 'mise en service machines Tanger', 'transfert industriel Tanger', 'installation ligne de production Maroc', 'installation usine Tanger Free Zone', 'montage mécanique Tanger'],
+    faq: [
+      {
+        question: 'Dans quelles zones industrielles intervenez-vous ?',
+        answer: 'Nous intervenons à Tanger Free Zone, Tanger Automotive City, Tanger Med, Gueznaya, Mghogha, Tétouan Park et dans toute la région Nord du Maroc.',
+      },
+      {
+        question: 'Pouvez-vous déménager une machine ou une ligne de production ?',
+        answer: 'Oui, nous réalisons le transfert industriel : démontage, levage, transport, repositionnement, calage, alignement et raccordement mécanique sur le nouveau site.',
+      },
+      {
+        question: 'Intervenez-vous en dehors des heures de production ?',
+        answer: 'Oui, pour limiter l\'arrêt de votre production, nous pouvons intervenir les week-ends et la nuit selon vos contraintes.',
+      },
+    ],
   },
   {
     slug: 'cloture-metallique',
@@ -217,9 +285,27 @@ export const services: Service[] = [
     priority: 'medium',
     segment: 'B2B+B2C',
     ticketRange: '5 000 – 200 000 MAD',
-    metaTitle: 'Clôture Métallique Tanger | Portails, Grillage Industriel – DIONORD',
-    metaDescription: 'Installation de clôtures métalliques et portails à Tanger. Grillage, panneaux rigides, portails motorisés pour sites industriels et particuliers. Devis gratuit.',
-    keywords: ['clôture métallique Tanger', 'portail coulissant Tanger', 'grillage industriel Maroc', 'clôture villa Tanger', 'portail motorisé Tanger'],
+    metaTitle: 'Clôture Métallique & Portail Tanger | Prix, Devis – DIONORD',
+    metaDescription: 'Clôture métallique et portail à Tanger : panneaux rigides, grillage, portail coulissant ou battant motorisé. Galvanisé ou époxy, pose incluse. Devis gratuit 48h.',
+    keywords: ['clôture métallique Tanger', 'portail coulissant Tanger', 'portail métallique Tanger', 'portail motorisé Tanger', 'grillage Tanger', 'clôture villa Tanger', 'clôture panneau rigide Maroc', 'clôture industrielle Tanger', 'clôture terrain Tanger', 'clôture métallique Tétouan', 'prix clôture métallique Maroc'],
+    faq: [
+      {
+        question: 'Quel est le prix d\'une clôture métallique à Tanger ?',
+        answer: 'Le prix dépend du linéaire, de la hauteur, du type de clôture (panneaux rigides, grillage simple ou double torsion) et du traitement anti-corrosion. Nos projets vont de 5 000 à 200 000 MAD. Nous établissons un devis gratuit incluant les métrés sur site.',
+      },
+      {
+        question: 'Proposez-vous des portails coulissants motorisés ?',
+        answer: 'Oui, nous fabriquons et installons des portails coulissants et battants, manuels ou motorisés, avec service après-vente sur la motorisation.',
+      },
+      {
+        question: 'Vos clôtures résistent-elles au climat côtier de Tanger ?',
+        answer: 'Oui, toutes nos clôtures sont traitées contre la corrosion par galvanisation à chaud ou peinture époxy, adaptées à l\'air marin de la région de Tanger.',
+      },
+      {
+        question: 'Installez-vous des clôtures pour villas et terrains ?',
+        answer: 'Oui, nous équipons aussi bien les sites industriels que les villas, terrains, lotissements et exploitations agricoles à Tanger, Tétouan, Asilah et dans tout le Nord.',
+      },
+    ],
   },
   {
     slug: 'systeme-incendie',
@@ -270,9 +356,27 @@ export const services: Service[] = [
     priority: 'high',
     segment: 'B2B',
     ticketRange: '20 000 – 500 000 MAD',
-    metaTitle: 'Système Incendie Tanger | Détection, Extinction EN-54 – DIONORD',
-    metaDescription: 'Installation et maintenance de systèmes de sécurité incendie à Tanger. Détection, sprinklers, RIA, conformité EN-54. Audit gratuit. DIONORD région Nord Maroc.',
-    keywords: ['système incendie Tanger', 'sécurité incendie Maroc', 'installation détection incendie', 'norme EN-54 Maroc', 'sprinkler Tanger', 'audit incendie gratuit'],
+    metaTitle: 'Sécurité Incendie Tanger | Détection, Sprinkler, RIA – DIONORD',
+    metaDescription: 'Installation et maintenance de systèmes de sécurité incendie à Tanger : détection EN-54, sprinklers, RIA, alarme, mise en conformité. Audit gratuit. Devis 48h.',
+    keywords: ['sécurité incendie Tanger', 'système incendie Tanger', 'détection incendie Tanger', 'sprinkler Tanger', 'RIA robinet incendie armé Maroc', 'installation sprinkler Maroc', 'maintenance incendie Tanger', 'norme EN-54 Maroc', 'mise en conformité incendie Tanger', 'audit incendie gratuit'],
+    faq: [
+      {
+        question: 'Vos installations sont-elles conformes aux normes ?',
+        answer: 'Oui, nos systèmes de détection et de protection incendie sont conformes aux normes EN-54 et à la réglementation marocaine en vigueur.',
+      },
+      {
+        question: 'Proposez-vous des contrats de maintenance incendie ?',
+        answer: 'Oui, nous proposons des contrats de maintenance annuelle pour vos détecteurs, centrales, sprinklers, RIA et alarmes, afin de garantir leur bon fonctionnement en permanence.',
+      },
+      {
+        question: 'L\'audit sécurité incendie est-il gratuit ?',
+        answer: 'Oui, nous réalisons un audit gratuit de votre site pour identifier les équipements nécessaires et les points de mise en conformité.',
+      },
+      {
+        question: 'Quels bâtiments équipez-vous ?',
+        answer: 'Usines, entrepôts, plateformes logistiques, hôtels, cliniques, bureaux, immeubles et centres commerciaux à Tanger et dans toute la région Tanger-Tétouan-Al Hoceima.',
+      },
+    ],
   },
   {
     slug: 'travaux-amenagement',
@@ -319,9 +423,23 @@ export const services: Service[] = [
     priority: 'low',
     segment: 'B2C',
     ticketRange: '5 000 – 80 000 MAD',
-    metaTitle: 'Travaux Aménagement Tanger | Peinture, Électricité, Rénovation – DIONORD',
-    metaDescription: 'Travaux d\'aménagement intérieur et extérieur à Tanger. Peinture, électricité, faux plafonds, rénovation complète. DIONORD, votre artisan de confiance.',
-    keywords: ['travaux aménagement Tanger', 'peinture Tanger', 'rénovation intérieur Tanger', 'électricité Tanger', 'aménagement bureau Tanger'],
+    metaTitle: 'Travaux Aménagement & Rénovation Tanger | Peinture – DIONORD',
+    metaDescription: 'Travaux d\'aménagement et de rénovation à Tanger : peinture, électricité, faux plafonds, revêtements, aménagement de bureaux et commerces. Devis gratuit 48h.',
+    keywords: ['travaux aménagement Tanger', 'rénovation appartement Tanger', 'peinture Tanger', 'faux plafond Tanger', 'électricité bâtiment Tanger', 'aménagement bureau Tanger', 'aménagement local commercial Tanger', 'entreprise rénovation Tanger'],
+    faq: [
+      {
+        question: 'Quels travaux d\'aménagement réalisez-vous ?',
+        answer: 'Peinture intérieure et extérieure, électricité (courant fort et faible), faux plafonds, revêtements de sols et muraux, cloisons sèches, agencement de bureaux et de commerces, rénovation complète.',
+      },
+      {
+        question: 'Combien coûte une rénovation à Tanger ?',
+        answer: 'Selon la surface et les travaux, nos chantiers d\'aménagement se situent généralement entre 5 000 et 80 000 MAD. Le devis est gratuit et inclut les matériaux.',
+      },
+      {
+        question: 'Pouvez-vous gérer tous les corps de métier ?',
+        answer: 'Oui, nos équipes polyvalentes prennent en charge peinture, électricité et finitions, et peuvent enchaîner avec la menuiserie aluminium ou la clôture : un seul interlocuteur pour tout votre projet.',
+      },
+    ],
   },
 ]
 

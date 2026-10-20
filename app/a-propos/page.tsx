@@ -6,8 +6,9 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import { getWhatsAppLink } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'À propos – DIONORD SARL AU Tanger',
-  description: 'Découvrez DIONORD SARL AU, entreprise spécialisée en construction métallique, menuiserie aluminium et sécurité incendie à Tanger, Maroc.',
+  title: 'À propos – Entreprise de Construction Métallique à Tanger',
+  description: 'DIONORD SARL AU, entreprise marocaine basée à Tanger : bureau d\'études, atelier de fabrication et équipes de pose en construction métallique, menuiserie aluminium, clôtures et sécurité incendie.',
+  alternates: { canonical: '/a-propos' },
 }
 
 const values = [

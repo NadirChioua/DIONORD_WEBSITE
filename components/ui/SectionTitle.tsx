@@ -9,9 +9,10 @@ interface Props {
   subtitle?: string
   centered?: boolean
   light?: boolean
+  as?: 'h1' | 'h2'
 }
 
-export default function SectionTitle({ label, title, subtitle, centered = false, light = false }: Props) {
+export default function SectionTitle({ label, title, subtitle, centered = false, light = false, as: Heading = 'h2' }: Props) {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 })
 
   return (
@@ -35,7 +36,7 @@ export default function SectionTitle({ label, title, subtitle, centered = false,
           <div className="w-8 h-0.5 bg-brand-red" />
         </div>
       )}
-      <h2 className={cn('section-title', light && 'text-white')}>{title}</h2>
+      <Heading className={cn('section-title', light && 'text-white')}>{title}</Heading>
       {subtitle && (
         <p className={cn('section-subtitle', centered && 'mx-auto', light && 'text-white/70')}>
           {subtitle}

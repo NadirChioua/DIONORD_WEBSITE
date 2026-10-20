@@ -69,7 +69,7 @@ export default function AboutSection() {
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/about/atelier.jpg"
-                  alt="Atelier de fabrication DIONORD"
+                  alt="Atelier de fabrication métallique DIONORD à Tanger"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 50vw, 25vw"
@@ -78,7 +78,7 @@ export default function AboutSection() {
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/about/chantier-equipe.jpg"
-                  alt="Équipe DIONORD sur chantier"
+                  alt="Équipe DIONORD sur chantier de construction métallique"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 1024px) 50vw, 25vw"

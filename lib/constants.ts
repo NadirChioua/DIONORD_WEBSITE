@@ -1,7 +1,10 @@
+// Domaine canonique (celui vérifié dans Google Search Console)
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.dionord.com').replace(/\/$/, '')
+
 export const SITE_NAME = 'DIONORD SARL AU'
 export const SITE_TAGLINE = 'Confiance & Savoir Faire'
 export const SITE_DESCRIPTION =
-  'DIONORD SARL AU – Construction métallique, menuiserie aluminium & inox, systèmes de sécurité incendie et travaux d\'aménagement à Tanger, Maroc.'
+  'DIONORD SARL AU – Construction métallique, charpente, clôtures et portails, menuiserie aluminium & inox, sécurité incendie, installation de machines industrielles et travaux d\'aménagement à Tanger et dans tout le Nord du Maroc. Devis gratuit sous 48h.'
 
 export const CONTACT = {
   address: 'Zone Industrielle, Tanger, Maroc',

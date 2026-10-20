@@ -42,7 +42,7 @@ export default function RealisationsSection() {
             >
               <Image
                 src={project.images[0]}
-                alt={project.title}
+                alt={`${project.title} – DIONORD Tanger`}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

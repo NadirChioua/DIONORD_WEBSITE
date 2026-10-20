@@ -3,8 +3,9 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2, ChevronRight, Building2, Layers, Settings, Shield, Flame, Paintbrush } from 'lucide-react'
-import { services, getServiceBySlug, getRelatedServices } from '@/data/services'
+import { services, getServiceBySlug, getRelatedServices, SERVICE_AREAS } from '@/data/services'
 import { getWhatsAppLink, CONTACT } from '@/lib/constants'
+import { JsonLd, breadcrumbJsonLd, serviceJsonLd } from '@/lib/seo'
 
 const iconMap: Record<string, React.ElementType> = {
   Building2, Layers, Settings, Shield, Flame, Paintbrush,
@@ -21,10 +22,25 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getServiceBySlug(params.slug)
   if (!service) return {}
+  const path = `/services/${service.slug}`
   return {
-    title: service.metaTitle,
+    title: { absolute: service.metaTitle },
     description: service.metaDescription,
     keywords: service.keywords,
+    alternates: { canonical: path },
+    openGraph: {
+      type: 'website',
+      url: path,
+      title: service.metaTitle,
+      description: service.metaDescription,
+      images: [{ url: service.heroImage, alt: `${service.title} à Tanger – DIONORD` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: service.metaTitle,
+      description: service.metaDescription,
+      images: [service.heroImage],
+    },
   }
 }
 
@@ -37,12 +53,21 @@ export default function ServicePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: 'Accueil', path: '/' },
+          { name: 'Services', path: '/#services' },
+          { name: service.shortTitle, path: `/services/${service.slug}` },
+        ])}
+      />
+
       {/* Hero */}
       <section className="relative h-72 md:h-96 flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={service.heroImage}
-            alt={service.title}
+            alt={`${service.title} à Tanger – DIONORD`}
             fill
             className="object-cover"
             priority
@@ -66,7 +91,7 @@ export default function ServicePage({ params }: Props) {
             </div>
             <div>
               <div className="text-brand-blue-mid text-sm font-semibold mb-1">{service.segment}</div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">{service.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white">{service.title} à Tanger</h1>
             </div>
           </div>
         </div>
@@ -93,7 +118,7 @@ export default function ServicePage({ params }: Props) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-10">
                   {service.images.slice(0, 4).map((img, i) => (
                     <div key={i} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
-                      <Image src={img} alt={`${service.title} – réalisation ${i + 1}`} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 50vw" />
+                      <Image src={img} alt={`${service.title} à Tanger – réalisation DIONORD ${i + 1}`} fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 50vw" />
                     </div>
                   ))}
                 </div>
@@ -135,6 +160,37 @@ export default function ServicePage({ params }: Props) {
                     <span key={i} className="bg-brand-blue/10 text-brand-blue text-sm font-medium px-4 py-2 rounded-full">
                       {t}
                     </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Zones */}
+              <div className="mt-10">
+                <h2 className="text-2xl font-bold text-brand-blue mb-6">Zones d&apos;intervention</h2>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  {service.shortTitle} à Tanger et dans toute la région Tanger-Tétouan-Al Hoceima. Nos équipes se déplacent sur site pour l&apos;étude, la prise de mesures et le devis gratuit.
+                </p>
+                <ul className="flex flex-wrap gap-2">
+                  {SERVICE_AREAS.map((area) => (
+                    <li key={area} className="bg-brand-gray-light text-gray-700 text-sm px-3 py-1.5 rounded-full">
+                      {area}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* FAQ */}
+              <div className="mt-10">
+                <h2 className="text-2xl font-bold text-brand-blue mb-6">Questions fréquentes – {service.shortTitle}</h2>
+                <div className="space-y-3">
+                  {service.faq.map((f, i) => (
+                    <details key={i} className="group bg-brand-gray-light rounded-lg p-5" open={i === 0}>
+                      <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-brand-blue">
+                        <h3 className="text-base">{f.question}</h3>
+                        <ChevronRight className="w-4 h-4 flex-shrink-0 transition-transform group-open:rotate-90" />
+                      </summary>
+                      <p className="text-gray-600 leading-relaxed mt-3">{f.answer}</p>
+                    </details>
                   ))}
                 </div>
               </div>

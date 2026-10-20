@@ -8,10 +8,19 @@ import TrustSection from '@/components/home/TrustSection'
 import ContactSection from '@/components/home/ContactSection'
 
 export const metadata: Metadata = {
-  title: 'DIONORD SARL AU – Construction Métallique & Menuiserie Aluminium Tanger',
+  title: { absolute: 'DIONORD Tanger – Construction Métallique, Clôture, Aluminium & Incendie' },
   description:
-    'DIONORD SARL AU – Expert en construction métallique, menuiserie aluminium & inox, systèmes incendie et aménagement à Tanger, Maroc. Devis gratuit sous 48h.',
-  keywords: ['construction métallique Tanger', 'menuiserie aluminium Tanger', 'DIONORD', 'charpente métallique Maroc'],
+    'DIONORD SARL AU, entreprise à Tanger : construction métallique et hangars, clôtures et portails, menuiserie aluminium & inox, sécurité incendie, installation de machines. Devis gratuit sous 48h.',
+  keywords: [
+    'DIONORD',
+    'entreprise construction métallique Tanger',
+    'charpente métallique Tanger',
+    'clôture métallique Tanger',
+    'menuiserie aluminium Tanger',
+    'sécurité incendie Tanger',
+    'installation machines industrielles Tanger',
+  ],
+  alternates: { canonical: '/' },
 }
 
 export default function HomePage() {

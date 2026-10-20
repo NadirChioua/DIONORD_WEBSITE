@@ -159,9 +159,9 @@ export default function HeroSection() {
               loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            Construction métallique • Menuiserie aluminium & inox
+            Construction métallique • Clôtures & portails • Menuiserie aluminium & inox
             <br />
-            Sécurité incendie • Aménagement
+            Sécurité incendie • Installation de machines • Aménagement — à Tanger et dans tout le Nord du Maroc
           </p>
 
           {/* CTAs */}

@@ -38,7 +38,8 @@ export default function ContactPage() {
         <div className="container-custom">
           <SectionTitle
             label="Contactez-nous"
-            title="Parlons de votre projet"
+            title="Contact & devis gratuit à Tanger"
+            as="h1"
             subtitle="Devis gratuit sous 48h. Notre équipe vous répond rapidement et se déplace sur site pour évaluer vos besoins."
             light
           />

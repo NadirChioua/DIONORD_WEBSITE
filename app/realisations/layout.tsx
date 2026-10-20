@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Réalisations – Portfolio DIONORD Tanger',
+  title: { absolute: 'Réalisations à Tanger – Charpente, Clôture, Aluminium | DIONORD' },
   description:
     'Découvrez nos réalisations en construction métallique, menuiserie aluminium & inox, sécurité incendie et aménagement à Tanger. Photos réelles de nos projets industriels et résidentiels.',
   keywords: [
@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     'garde-corps inox Tanger',
     'hangar métallique réalisé',
   ],
+  alternates: { canonical: '/realisations' },
   openGraph: {
     title: 'Réalisations DIONORD – Construction Métallique & Menuiserie Aluminium Tanger',
     description: 'Portfolio complet de nos projets industriels et résidentiels à Tanger et région Nord Maroc.',
