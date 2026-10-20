@@ -11,7 +11,7 @@ export const CONTACT = {
   phone: '+212 669 820 191',
   whatsapp: '33749389103',
   whatsappDisplay: '+33 7 49 38 91 03',
-  email: 'contact@dionord.ma',
+  email: 'contact@dionord.com',
   hours: {
     weekdays: 'Lundi – Vendredi : 8h00 – 18h00',
     saturday: 'Samedi : 8h00 – 13h00',

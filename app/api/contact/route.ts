@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { CONTACT } from '@/lib/constants'
 
 // Nodemailer a besoin du runtime Node.js (pas Edge)
 export const runtime = 'nodejs'
@@ -120,7 +121,7 @@ export async function POST(request: Request) {
 
     await transporter.sendMail({
       from: `"DIONORD Site Web" <${SMTP_USER}>`,
-      to: CONTACT_EMAIL || SMTP_USER,
+      to: CONTACT_EMAIL || CONTACT.email,
       replyTo: email || undefined,
       subject,
       text,
