@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react'
 import { CONTACT, getWhatsAppLink } from '@/lib/constants'
 import { services } from '@/data/services'
+import { trackEvent } from '@/lib/analytics'
 import SectionTitle from '@/components/ui/SectionTitle'
 
 export default function ContactPage() {
@@ -21,6 +22,7 @@ export default function ContactPage() {
       })
       if (res.ok) {
         setStatus('success')
+        trackEvent('generate_lead', { form_location: 'contact_page', service: form.service || 'non spécifié' })
         setForm({ name: '', email: '', phone: '', company: '', service: '', message: '', website: '' })
       } else {
         setStatus('error')

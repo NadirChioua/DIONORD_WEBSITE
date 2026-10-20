@@ -3,6 +3,7 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
 import { JsonLd, businessJsonLd } from '@/lib/seo'
 
@@ -75,6 +76,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <WhatsAppButton />
+        <GoogleAnalytics />
       </body>
     </html>
   )
