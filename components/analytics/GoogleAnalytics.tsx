@@ -9,8 +9,8 @@ import { GA_ID, trackEvent } from '@/lib/analytics'
 function sendToSite(payload: Record<string, unknown>) {
   try {
     const body = JSON.stringify(payload)
-    if (!navigator.sendBeacon?.('/api/track', new Blob([body], { type: 'text/plain' }))) {
-      fetch('/api/track', { method: 'POST', body, keepalive: true }).catch(() => {})
+    if (!navigator.sendBeacon?.('/api/v', new Blob([body], { type: 'text/plain' }))) {
+      fetch('/api/v', { method: 'POST', body, keepalive: true }).catch(() => {})
     }
   } catch {}
 }
