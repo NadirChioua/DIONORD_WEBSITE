@@ -1,21 +1,27 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { ADMIN_COOKIE, checkPassword, createSessionToken, isPasswordConfigured } from '@/lib/adminAuth'
 
 export async function POST(request: Request) {
   try {
-    const { password } = await request.json()
-    const adminPassword = process.env.ADMIN_PASSWORD || 'dionord2026'
+    if (!isPasswordConfigured()) {
+      return NextResponse.json({ error: 'ADMIN_PASSWORD non configuré sur le serveur' }, { status: 503 })
+    }
 
-    if (password !== adminPassword) {
+    const { password } = await request.json()
+    if (!checkPassword(password)) {
+      // Ralentit les tentatives de force brute
+      await new Promise((r) => setTimeout(r, 800))
       return NextResponse.json({ error: 'Mot de passe incorrect' }, { status: 401 })
     }
 
+    const { token, maxAge } = createSessionToken()
     const response = NextResponse.json({ success: true })
-    response.cookies.set('admin_auth', 'true', {
+    response.cookies.set(ADMIN_COOKIE, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24, // 24h
-      sameSite: 'lax',
+      maxAge,
+      sameSite: 'strict',
+      path: '/',
     })
     return response
   } catch {
@@ -25,6 +31,7 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
   const response = NextResponse.json({ success: true })
+  response.cookies.delete(ADMIN_COOKIE)
   response.cookies.delete('admin_auth')
   return response
 }

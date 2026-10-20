@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { LogOut, Upload, Trash2, Plus, Save, Eye, GripVertical, ImageIcon, Users, ChevronUp, ChevronDown } from 'lucide-react'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 
 interface SliderImage {
   id: string
@@ -57,7 +58,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
   const [content, setContent] = useState<ContentData | null>(null)
-  const [activeTab, setActiveTab] = useState<'slider' | 'realisations' | 'clients'>('slider')
+  const [activeTab, setActiveTab] = useState<'stats' | 'slider' | 'realisations' | 'clients'>('stats')
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   const [uploading, setUploading] = useState(false)
@@ -84,7 +85,8 @@ export default function AdminPage() {
       const data = await fetch('/api/admin/content').then((r) => r.json())
       setContent(data)
     } else {
-      setAuthError('Mot de passe incorrect')
+      const { error } = await res.json().catch(() => ({ error: '' }))
+      setAuthError(error || 'Mot de passe incorrect')
     }
   }
 
@@ -225,17 +227,17 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto p-6">
         {/* Tab bar + save */}
         <div className="flex items-center justify-between mb-6">
-          <div className="flex gap-3">
-            {(['slider', 'realisations', 'clients'] as const).map((tab) => (
+          <div className="flex flex-wrap gap-3">
+            {(['stats', 'slider', 'realisations', 'clients'] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-lg font-semibold text-sm transition-all cursor-pointer ${
                   activeTab === tab ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}>
-                {tab === 'slider' ? 'Slider Hero' : tab === 'realisations' ? 'Réalisations' : 'Clients'}
+                {tab === 'stats' ? 'Statistiques' : tab === 'slider' ? 'Slider Hero' : tab === 'realisations' ? 'Réalisations' : 'Clients'}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-3">
+          <div className={`flex items-center gap-3 ${activeTab === 'stats' ? 'hidden' : ''}`}>
             {saveMsg && <span className={`text-sm font-medium ${saveMsg.includes('succès') ? 'text-green-600' : 'text-red-500'}`}>{saveMsg}</span>}
             <button onClick={handleSave} disabled={saving}
               className="flex items-center gap-2 bg-brand-red text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-red-dark transition-colors disabled:opacity-60 cursor-pointer">
@@ -244,6 +246,8 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+
+        {activeTab === 'stats' && <AnalyticsDashboard />}
 
         {/* ── Slider Tab ─────────────────────────────────────────────────── */}
         {activeTab === 'slider' && (

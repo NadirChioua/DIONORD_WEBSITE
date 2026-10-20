@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import HideOnAdmin from '@/components/layout/HideOnAdmin'
 import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
 import { JsonLd, businessJsonLd } from '@/lib/seo'
 
@@ -72,10 +73,14 @@ export default function RootLayout({
         <JsonLd data={businessJsonLd()} />
       </head>
       <body>
-        <Navbar />
+        <HideOnAdmin>
+          <Navbar />
+        </HideOnAdmin>
         <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <HideOnAdmin>
+          <Footer />
+          <WhatsAppButton />
+        </HideOnAdmin>
         <GoogleAnalytics />
       </body>
     </html>

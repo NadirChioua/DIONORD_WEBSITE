@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { isAuthenticated } from '@/lib/adminAuth'
 import fs from 'fs'
 import path from 'path'
-
-function isAuthenticated() {
-  const cookieStore = cookies()
-  return cookieStore.get('admin_auth')?.value === 'true'
-}
 
 export async function POST(request: Request) {
   if (!isAuthenticated()) {
