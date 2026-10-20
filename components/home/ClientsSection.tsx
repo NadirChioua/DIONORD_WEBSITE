@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion'
-import { clients } from '@/data/clients'
+import type { Client } from '@/data/clients'
 
 // ─── Animated counter ─────────────────────────────────────────────────────────
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -29,7 +29,7 @@ const stats = [
 ]
 
 // ─── Logo card (grid view) ────────────────────────────────────────────────────
-function LogoCard({ client, index }: { client: (typeof clients)[0]; index: number }) {
+function LogoCard({ client, index }: { client: Client; index: number }) {
   const isVector = client.logo.endsWith('.svg')
   return (
     <motion.div
@@ -67,7 +67,7 @@ function LogoCard({ client, index }: { client: (typeof clients)[0]; index: numbe
 }
 
 // ─── Infinite carousel strip ──────────────────────────────────────────────────
-function CarouselStrip() {
+function CarouselStrip({ clients }: { clients: Client[] }) {
   const doubled = [...clients, ...clients, ...clients]
   return (
     <div className="overflow-hidden w-full">
@@ -99,7 +99,7 @@ function CarouselStrip() {
 
 // ─── Main section ─────────────────────────────────────────────────────────────
 // To switch to infinite carousel: replace the grid div with <CarouselStrip />
-export default function ClientsSection() {
+export default function ClientsSection({ clients }: { clients: Client[] }) {
   return (
     <section className="section-padding bg-gradient-to-b from-white to-gray-50">
       <div className="container-custom">

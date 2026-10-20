@@ -2,19 +2,57 @@
 
 import { useEffect } from 'react'
 import Script from 'next/script'
+import { usePathname } from 'next/navigation'
 import { GA_ID, trackEvent } from '@/lib/analytics'
+
+// Envoi vers les statistiques internes du site (affichées dans /admin)
+function sendToSite(payload: Record<string, unknown>) {
+  try {
+    const body = JSON.stringify(payload)
+    if (!navigator.sendBeacon?.('/api/track', new Blob([body], { type: 'text/plain' }))) {
+      fetch('/api/track', { method: 'POST', body, keepalive: true }).catch(() => {})
+    }
+  } catch {}
+}
+
+function isNewVisit() {
+  try {
+    if (sessionStorage.getItem('dionord_visit')) return false
+    sessionStorage.setItem('dionord_visit', '1')
+    return true
+  } catch {
+    return false
+  }
+}
+
+function usePageviewTracking() {
+  const pathname = usePathname()
+  useEffect(() => {
+    if (!pathname || pathname.startsWith('/admin')) return
+    const newVisit = isNewVisit()
+    sendToSite({ type: 'pageview', path: pathname, referrer: newVisit ? document.referrer : '', newVisit })
+  }, [pathname])
+}
 
 // Suit les clics sur WhatsApp, téléphone et email partout sur le site
 function useContactClickTracking() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
+      if (window.location.pathname.startsWith('/admin')) return
       const link = (e.target as HTMLElement | null)?.closest?.('a')
       if (!link) return
       const href = link.getAttribute('href') || ''
       const params = { link_url: href, page_path: window.location.pathname }
-      if (href.startsWith('https://wa.me/')) trackEvent('whatsapp_click', params)
-      else if (href.startsWith('tel:')) trackEvent('phone_click', params)
-      else if (href.startsWith('mailto:')) trackEvent('email_click', params)
+      const name = href.startsWith('https://wa.me/')
+        ? 'whatsapp_click'
+        : href.startsWith('tel:')
+          ? 'phone_click'
+          : href.startsWith('mailto:')
+            ? 'email_click'
+            : null
+      if (!name) return
+      trackEvent(name, params)
+      sendToSite({ type: 'event', name })
     }
     document.addEventListener('click', onClick, { capture: true })
     return () => document.removeEventListener('click', onClick, { capture: true })
@@ -22,6 +60,7 @@ function useContactClickTracking() {
 }
 
 export default function GoogleAnalytics() {
+  usePageviewTracking()
   useContactClickTracking()
 
   if (!GA_ID) return null

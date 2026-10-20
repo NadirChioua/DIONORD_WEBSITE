@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useInView } from 'react-intersection-observer'
 import { ArrowRight, ExternalLink } from 'lucide-react'
 import SectionTitle from '@/components/ui/SectionTitle'
-import contentData from '@/data/content.json'
+import type { Realisation } from '@/lib/content'
 
 const categoryLabels: Record<string, string> = {
   'construction-metallique': 'Construction Métallique',
@@ -16,10 +16,10 @@ const categoryLabels: Record<string, string> = {
   'travaux-amenagement': 'Aménagement',
 }
 
-export default function RealisationsSection() {
+export default function RealisationsSection({ realisations }: { realisations: Realisation[] }) {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 })
 
-  const featured = contentData.realisations.filter((r) => r.featured).slice(0, 6)
+  const featured = realisations.filter((r) => r.featured).slice(0, 6)
 
   return (
     <section className="section-padding bg-white" ref={ref}>

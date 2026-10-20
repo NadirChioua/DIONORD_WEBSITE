@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { CONTACT } from '@/lib/constants'
+import { isStoreConfigured } from '@/lib/store'
+import { saveLead, updateLead, type Lead } from '@/lib/leads'
+import { recordEvent } from '@/lib/stats'
 
 // Nodemailer a besoin du runtime Node.js (pas Edge)
 export const runtime = 'nodejs'
@@ -48,18 +51,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Adresse email invalide' }, { status: 400 })
   }
 
+  // 1. Enregistrement dans la base de données (visible dans /admin → Demandes)
+  let lead: Lead | null = null
+  if (isStoreConfigured()) {
+    try {
+      lead = await saveLead({ name, phone, email, company, service, message })
+      await recordEvent('generate_lead')
+    } catch (error) {
+      console.error('Contact form: enregistrement impossible', error)
+    }
+  }
+
+  // 2. Envoi de l'email
   const { SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, CONTACT_EMAIL } = process.env
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    // Ne jamais afficher "succès" si la demande ne peut pas être transmise
-    console.error('Contact form: SMTP non configuré (SMTP_HOST / SMTP_USER / SMTP_PASS manquants)', {
-      name,
-      phone,
-      email,
-      company,
-      service,
-      message,
-    })
-    return NextResponse.json({ error: 'Service email indisponible' }, { status: 503 })
+    console.error('Contact form: SMTP non configuré (SMTP_HOST / SMTP_USER / SMTP_PASS manquants)', { name, phone, email, service })
+    // La demande reste disponible dans l'admin si elle a été enregistrée
+    return lead
+      ? NextResponse.json({ success: true })
+      : NextResponse.json({ error: 'Service email indisponible' }, { status: 503 })
   }
 
   const date = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Casablanca' })
@@ -128,9 +138,12 @@ export async function POST(request: Request) {
       html,
     })
 
+    if (lead) await updateLead(lead.id, { emailSent: true }).catch(() => {})
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Contact form: échec de l\'envoi email', error, { name, phone, email, service, message })
-    return NextResponse.json({ error: 'Échec de l\'envoi' }, { status: 502 })
+    console.error('Contact form: échec de l\'envoi email', error, { name, phone, email, service })
+    return lead
+      ? NextResponse.json({ success: true })
+      : NextResponse.json({ error: 'Échec de l\'envoi' }, { status: 502 })
   }
 }

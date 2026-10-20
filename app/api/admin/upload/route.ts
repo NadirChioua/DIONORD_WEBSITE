@@ -1,7 +1,19 @@
 import { NextResponse } from 'next/server'
-import { isAuthenticated } from '@/lib/adminAuth'
+import crypto from 'crypto'
 import fs from 'fs'
 import path from 'path'
+import { isAuthenticated } from '@/lib/adminAuth'
+import { isStoreConfigured, redis } from '@/lib/store'
+
+const TYPES: Record<string, string> = {
+  'image/jpeg': '.jpg',
+  'image/jpg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+  'image/svg+xml': '.svg',
+}
+// Limite de Vercel pour le corps d'une requête : 4,5 Mo
+const MAX_BYTES = 4 * 1024 * 1024
 
 export async function POST(request: Request) {
   if (!isAuthenticated()) {
@@ -10,42 +22,33 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData()
-    const file = formData.get('file') as File
-    const folder = (formData.get('folder') as string) || 'uploads'
-
-    if (!file) {
-      return NextResponse.json({ error: 'Aucun fichier' }, { status: 400 })
+    const file = formData.get('file')
+    if (!(file instanceof File)) {
+      return NextResponse.json({ error: 'Aucun fichier reçu' }, { status: 400 })
     }
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/svg+xml']
-    if (!allowedTypes.includes(file.type)) {
+    const ext = TYPES[file.type]
+    if (!ext) {
       return NextResponse.json({ error: 'Type de fichier non autorisé (JPG, PNG, WebP, SVG uniquement)' }, { status: 400 })
     }
-
-    // Max 10MB
-    if (file.size > 10 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Fichier trop volumineux (max 10MB)' }, { status: 400 })
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json({ error: 'Fichier trop volumineux (max 4 Mo)' }, { status: 400 })
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    const buffer = Buffer.from(await file.arrayBuffer())
+    const baseName = path.basename(file.name, path.extname(file.name)).replace(/[^a-zA-Z0-9-_]/g, '-').toLowerCase().slice(0, 40)
+    const filename = `${baseName || 'image'}-${crypto.randomBytes(6).toString('hex')}${ext}`
 
-    // Sanitize filename
-    const ext = path.extname(file.name).toLowerCase()
-    const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9-_]/g, '-').toLowerCase()
-    const filename = `${baseName}-${Date.now()}${ext}`
-
-    const uploadDir = path.join(process.cwd(), 'public', folder)
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true })
+    if (isStoreConfigured()) {
+      await redis(['HSET', `media:${filename}`, 'type', file.type, 'data', buffer.toString('base64'), 'created', new Date().toISOString()])
+      return NextResponse.json({ success: true, path: `/api/media/${filename}` })
     }
 
-    const filePath = path.join(uploadDir, filename)
-    fs.writeFileSync(filePath, buffer)
-
-    const publicPath = `/${folder}/${filename}`
-    return NextResponse.json({ success: true, path: publicPath })
+    // Développement local sans base de données : enregistrement dans public/uploads
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    fs.mkdirSync(uploadDir, { recursive: true })
+    fs.writeFileSync(path.join(uploadDir, filename), buffer)
+    return NextResponse.json({ success: true, path: `/uploads/${filename}` })
   } catch (error) {
     console.error('Upload error:', error)
     return NextResponse.json({ error: 'Erreur upload' }, { status: 500 })

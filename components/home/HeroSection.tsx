@@ -6,40 +6,14 @@ import Link from 'next/link'
 import { ChevronDown, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getWhatsAppLink, CONTACT } from '@/lib/constants'
 
-const slides = [
-  {
-    src: '/images/hero/hero-01-charpente.jpg',
-    alt: 'Charpente métallique industrielle en construction – DIONORD Tanger',
-    title: 'Construction Métallique',
-    sub: 'Structures industrielles sur mesure',
-  },
-  {
-    src: '/images/hero/hero-02-hangar.jpg',
-    alt: 'Hangar industriel de grande portée – DIONORD',
-    title: 'Hangars Industriels',
-    sub: 'Grande portée, haute qualité',
-  },
-  {
-    src: '/images/hero/hero-03-soudure.jpg',
-    alt: 'Soudure et fabrication métallique en atelier – DIONORD',
-    title: 'Atelier de Fabrication',
-    sub: 'Savoir-faire artisanal et technique',
-  },
-  {
-    src: '/images/hero/hero-04-aluminium.jpg',
-    alt: 'Façade aluminium et menuiserie premium – DIONORD',
-    title: 'Menuiserie Aluminium & Inox',
-    sub: 'Finitions premium sur mesure',
-  },
-  {
-    src: '/images/hero/hero-05-amenagement.jpg',
-    alt: 'Aménagement intérieur professionnel – DIONORD',
-    title: 'Aménagement Professionnel',
-    sub: 'Espaces de travail élégants',
-  },
-]
+export interface HeroSlide {
+  src: string
+  alt: string
+  title: string
+  subtitle: string
+}
 
-export default function HeroSection() {
+export default function HeroSection({ slides }: { slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const [loaded, setLoaded] = useState(false)
   const [paused, setPaused] = useState(false)
@@ -55,7 +29,7 @@ export default function HeroSection() {
       setCurrent((c) => (c + 1) % slides.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [paused])
+  }, [paused, slides.length])
 
   const goTo = (index: number) => {
     setCurrent((index + slides.length) % slides.length)
@@ -131,7 +105,7 @@ export default function HeroSection() {
               <div className="text-white/70 text-sm font-medium tracking-widest uppercase mb-1">
                 {slides[current].title}
               </div>
-              <div className="text-white/40 text-xs">{slides[current].sub}</div>
+              <div className="text-white/40 text-xs">{slides[current].subtitle}</div>
             </div>
           </div>
 

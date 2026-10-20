@@ -6,6 +6,7 @@ import RealisationsSection from '@/components/home/RealisationsSection'
 import ClientsSection from '@/components/home/ClientsSection'
 import TrustSection from '@/components/home/TrustSection'
 import ContactSection from '@/components/home/ContactSection'
+import { getContent } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: { absolute: 'DIONORD Tanger – Construction Métallique, Clôture, Aluminium & Incendie' },
@@ -23,14 +24,19 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-export default function HomePage() {
+// Régénérée à chaque sauvegarde dans l'admin (et au plus tard toutes les heures)
+export const revalidate = 3600
+
+export default async function HomePage() {
+  const content = await getContent()
+
   return (
     <>
-      <HeroSection />
+      <HeroSection slides={content.sliderImages} />
       <AboutSection />
       <ServicesSection />
-      <RealisationsSection />
-      <ClientsSection />
+      <RealisationsSection realisations={content.realisations} />
+      <ClientsSection clients={content.clients} />
       <TrustSection />
       <ContactSection />
     </>

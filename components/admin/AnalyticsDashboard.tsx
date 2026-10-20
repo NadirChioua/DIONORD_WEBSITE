@@ -6,11 +6,12 @@ import { Users, MousePointerClick, Eye, FileText, MessageCircle, Phone, Search, 
 type Item = { label: string; value: number }
 type GscItem = { label: string; clicks: number; impressions: number; ctr: number; position: number }
 
-interface GaData {
-  totals: { users: number; sessions: number; views: number; leads: number; whatsapp: number; phone: number; email: number }
-  daily: { date: string; users: number; sessions: number; views: number; leads: number }[]
+interface SiteData {
+  totals: { visitors: number; visits: number; views: number; leads: number; whatsapp: number; phone: number; email: number }
+  daily: { date: string; views: number; visits: number; visitors: number; leads: number }[]
   pages: Item[]
-  channels: Item[]
+  sources: Item[]
+  countries: Item[]
   cities: Item[]
   devices: Item[]
 }
@@ -22,25 +23,21 @@ interface GscData {
   pages: GscItem[]
 }
 
-type Result<T> = { data?: T; error?: string }
+type Result<T> = { data?: T; error?: string } | null
 interface AnalyticsResponse {
-  configured: boolean
   days: number
-  ga?: Result<GaData>
-  gsc?: Result<GscData>
+  setup: { database: boolean; email: boolean; googleAnalytics: boolean }
+  site: Result<SiteData>
+  gsc: Result<GscData>
 }
 
-const PERIODS = [7, 28, 90] as const
+const PERIODS = [7, 28, 90, 365] as const
 
-const CHANNEL_LABELS: Record<string, string> = {
-  'Organic Search': 'Recherche Google (naturel)',
-  Direct: 'Accès direct',
-  'Organic Social': 'Réseaux sociaux',
-  Referral: 'Sites référents',
-  'Paid Search': 'Annonces Google',
-  Unassigned: 'Non attribué',
+
+const COUNTRY_LABELS: Record<string, string> = {
+  MA: 'Maroc', FR: 'France', ES: 'Espagne', BE: 'Belgique', NL: 'Pays-Bas', DE: 'Allemagne', IT: 'Italie',
+  PT: 'Portugal', GB: 'Royaume-Uni', US: 'États-Unis', CA: 'Canada', DZ: 'Algérie', TN: 'Tunisie', TR: 'Turquie',
 }
-const DEVICE_LABELS: Record<string, string> = { desktop: 'Ordinateur', mobile: 'Mobile', tablet: 'Tablette' }
 
 const nf = new Intl.NumberFormat('fr-FR')
 const fmt = (n: number) => nf.format(Math.round(n))
@@ -194,16 +191,26 @@ function ErrorBox({ source, message }: { source: string; message: string }) {
   )
 }
 
-function SetupGuide() {
+function SetupStatus({ setup }: { setup: AnalyticsResponse['setup'] }) {
+  const items = [
+    { ok: setup.database, label: 'Base de données', help: 'Vercel → Storage → Upstash for Redis → Connect Project' },
+    { ok: setup.email, label: 'Envoi des emails', help: 'Variables SMTP_HOST, SMTP_USER, SMTP_PASS dans Vercel' },
+    { ok: setup.googleAnalytics, label: 'Google Analytics', help: 'Variable NEXT_PUBLIC_GA_ID dans Vercel' },
+  ]
+  if (items.every((i) => i.ok)) return null
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 text-sm text-gray-700 space-y-3">
-      <h3 className="font-bold text-brand-blue text-base">Connexion à Google non configurée</h3>
-      <p>Pour afficher les statistiques, ajoutez ces variables dans Vercel (Settings → Environment Variables), puis redéployez :</p>
-      <ul className="list-disc pl-5 space-y-1 font-mono text-xs">
-        <li>GOOGLE_SERVICE_ACCOUNT_EMAIL</li>
-        <li>GOOGLE_PRIVATE_KEY</li>
-        <li>GA4_PROPERTY_ID</li>
-        <li>GSC_SITE_URL (optionnel, par défaut sc-domain:dionord.com)</li>
+    <div className="bg-white rounded-xl border border-amber-200 p-5 text-sm">
+      <h3 className="font-bold text-brand-blue mb-3">Configuration</h3>
+      <ul className="space-y-2">
+        {items.map((i) => (
+          <li key={i.label} className="flex items-start gap-2">
+            <span className={`font-bold ${i.ok ? 'text-green-600' : 'text-red-500'}`}>{i.ok ? '✓' : '✗'}</span>
+            <span>
+              <span className="font-semibold text-gray-800">{i.label}</span>
+              {!i.ok && <span className="text-gray-500"> — {i.help}</span>}
+            </span>
+          </li>
+        ))}
       </ul>
     </div>
   )
@@ -226,7 +233,7 @@ export default function AnalyticsDashboard() {
     return () => { cancelled = true }
   }, [days, reloadKey])
 
-  const ga = data?.ga?.data
+  const site = data?.site?.data
   const gsc = data?.gsc?.data
 
   return (
@@ -239,7 +246,7 @@ export default function AnalyticsDashboard() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-colors ${
                 days === p ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
               }`}>
-              {p} jours
+              {p === 365 ? '1 an' : `${p} jours`}
             </button>
           ))}
         </div>
@@ -252,46 +259,47 @@ export default function AnalyticsDashboard() {
 
       {loading && !data && <div className="text-gray-400 text-center py-16">Chargement des statistiques...</div>}
       {!loading && !data && <ErrorBox source="Statistiques" message="Impossible de charger les données. Réessayez." />}
-      {data && !data.configured && <SetupGuide />}
+      {data?.setup && <SetupStatus setup={data.setup} />}
 
-      {data?.configured && (
+      {data && (
         <>
+          {data.site?.error && <ErrorBox source="Statistiques du site" message={data.site.error} />}
+
           {/* Demandes clients */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-bold text-brand-blue">Demandes clients</h2>
-            {data.ga?.error ? (
-              <ErrorBox source="Google Analytics" message={data.ga.error} />
-            ) : ga && (
+          {site && (
+            <section className="space-y-3">
+              <h2 className="text-lg font-bold text-brand-blue">Demandes clients</h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                <StatTile icon={FileText} label="Formulaires envoyés" value={fmt(ga.totals.leads)} hint="Demandes de devis reçues par email" />
-                <StatTile icon={MessageCircle} label="Clics WhatsApp" value={fmt(ga.totals.whatsapp)} />
-                <StatTile icon={Phone} label="Clics téléphone" value={fmt(ga.totals.phone)} />
-                <StatTile icon={MousePointerClick} label="Clics email" value={fmt(ga.totals.email)} />
+                <StatTile icon={FileText} label="Formulaires envoyés" value={fmt(site.totals.leads)} hint="Détail dans l'onglet Demandes" />
+                <StatTile icon={MessageCircle} label="Clics WhatsApp" value={fmt(site.totals.whatsapp)} />
+                <StatTile icon={Phone} label="Clics téléphone" value={fmt(site.totals.phone)} />
+                <StatTile icon={MousePointerClick} label="Clics email" value={fmt(site.totals.email)} />
               </div>
-            )}
-          </section>
+            </section>
+          )}
 
           {/* Visiteurs */}
-          {ga && (
+          {site && (
             <section className="space-y-3">
               <h2 className="text-lg font-bold text-brand-blue">Visiteurs du site</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <StatTile icon={Users} label="Visiteurs" value={fmt(ga.totals.users)} />
-                <StatTile icon={TrendingUp} label="Visites" value={fmt(ga.totals.sessions)} />
-                <StatTile icon={Eye} label="Pages vues" value={fmt(ga.totals.views)} />
+                <StatTile icon={Users} label="Visiteurs" value={fmt(site.totals.visitors)} hint="Personnes différentes" />
+                <StatTile icon={TrendingUp} label="Visites" value={fmt(site.totals.visits)} />
+                <StatTile icon={Eye} label="Pages vues" value={fmt(site.totals.views)} />
               </div>
-              <LineChart title="Visiteurs par jour" unit="visiteurs" points={ga.daily.map((d) => ({ date: d.date, value: d.users }))} />
+              <LineChart title="Visiteurs par jour" unit="visiteurs" points={site.daily.map((d) => ({ date: d.date, value: d.visitors }))} />
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                <BarList title="D'où viennent les visiteurs" items={ga.channels} unit="visites" labels={CHANNEL_LABELS} />
-                <BarList title="Pages les plus vues" items={ga.pages} unit="vues" />
-                <BarList title="Villes" items={ga.cities} unit="visiteurs" />
-                <BarList title="Appareils" items={ga.devices} unit="visiteurs" labels={DEVICE_LABELS} />
+                <BarList title="D'où viennent les visiteurs" items={site.sources} unit="visites" />
+                <BarList title="Pages les plus vues" items={site.pages} unit="vues" />
+                <BarList title="Villes" items={site.cities} unit="visites" />
+                <BarList title="Pays" items={site.countries} unit="visites" labels={COUNTRY_LABELS} />
+                <BarList title="Appareils" items={site.devices} unit="pages vues" />
               </div>
             </section>
           )}
 
           {/* Google */}
-          <section className="space-y-3">
+          {data.gsc && <section className="space-y-3">
             <h2 className="text-lg font-bold text-brand-blue">Présence sur Google</h2>
             {data.gsc?.error ? (
               <ErrorBox source="Search Console" message={data.gsc.error} />
@@ -309,7 +317,7 @@ export default function AnalyticsDashboard() {
                 <p className="text-xs text-gray-400">Les données Google Search Console ont 2 à 3 jours de décalage.</p>
               </>
             )}
-          </section>
+          </section>}
         </>
       )}
     </div>

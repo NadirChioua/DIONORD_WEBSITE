@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { LogOut, Upload, Trash2, Plus, Save, Eye, GripVertical, ImageIcon, Users, ChevronUp, ChevronDown } from 'lucide-react'
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
+import LeadsPanel from '@/components/admin/LeadsPanel'
 
 interface SliderImage {
   id: string
@@ -58,7 +59,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState('')
   const [content, setContent] = useState<ContentData | null>(null)
-  const [activeTab, setActiveTab] = useState<'stats' | 'slider' | 'realisations' | 'clients'>('stats')
+  const [activeTab, setActiveTab] = useState<'stats' | 'leads' | 'slider' | 'realisations' | 'clients'>('stats')
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   const [uploading, setUploading] = useState(false)
@@ -105,8 +106,13 @@ export default function AdminPage() {
       body: JSON.stringify(content),
     })
     setSaving(false)
-    setSaveMsg(res.ok ? 'Sauvegardé avec succès !' : 'Erreur de sauvegarde')
-    setTimeout(() => setSaveMsg(''), 3000)
+    if (res.ok) {
+      setSaveMsg('Sauvegardé avec succès ! Le site est mis à jour.')
+    } else {
+      const { error } = await res.json().catch(() => ({ error: '' }))
+      setSaveMsg(error || 'Erreur de sauvegarde')
+    }
+    setTimeout(() => setSaveMsg(''), 5000)
   }
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, onSuccess: (path: string) => void, folder = 'uploads') => {
@@ -121,6 +127,9 @@ export default function AdminPage() {
     if (res.ok) {
       const { path } = await res.json()
       onSuccess(path)
+    } else {
+      const { error } = await res.json().catch(() => ({ error: '' }))
+      alert(error || 'Erreur lors de l\'envoi de l\'image')
     }
     e.target.value = ''
   }
@@ -228,16 +237,16 @@ export default function AdminPage() {
         {/* Tab bar + save */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex flex-wrap gap-3">
-            {(['stats', 'slider', 'realisations', 'clients'] as const).map((tab) => (
+            {(['stats', 'leads', 'slider', 'realisations', 'clients'] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-lg font-semibold text-sm transition-all cursor-pointer ${
                   activeTab === tab ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}>
-                {tab === 'stats' ? 'Statistiques' : tab === 'slider' ? 'Slider Hero' : tab === 'realisations' ? 'Réalisations' : 'Clients'}
+                {tab === 'stats' ? 'Statistiques' : tab === 'leads' ? 'Demandes' : tab === 'slider' ? 'Slider Hero' : tab === 'realisations' ? 'Réalisations' : 'Clients'}
               </button>
             ))}
           </div>
-          <div className={`flex items-center gap-3 ${activeTab === 'stats' ? 'hidden' : ''}`}>
+          <div className={`flex items-center gap-3 ${activeTab === 'stats' || activeTab === 'leads' ? 'hidden' : ''}`}>
             {saveMsg && <span className={`text-sm font-medium ${saveMsg.includes('succès') ? 'text-green-600' : 'text-red-500'}`}>{saveMsg}</span>}
             <button onClick={handleSave} disabled={saving}
               className="flex items-center gap-2 bg-brand-red text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-red-dark transition-colors disabled:opacity-60 cursor-pointer">
@@ -248,6 +257,7 @@ export default function AdminPage() {
         </div>
 
         {activeTab === 'stats' && <AnalyticsDashboard />}
+        {activeTab === 'leads' && <LeadsPanel />}
 
         {/* ── Slider Tab ─────────────────────────────────────────────────── */}
         {activeTab === 'slider' && (
@@ -467,7 +477,7 @@ export default function AdminPage() {
               </h3>
               {(content.clients ?? []).length === 0 ? (
                 <div className="text-center py-10 text-gray-400 bg-white rounded-xl border border-gray-100">
-                  Aucun client configuré. Les clients affichés sur le site viennent de <code className="text-xs bg-gray-100 px-1 rounded">data/clients.ts</code>.
+                  Aucun client configuré : la liste par défaut sera affichée sur le site.
                 </div>
               ) : (
                 (content.clients ?? []).map((client, idx) => (
